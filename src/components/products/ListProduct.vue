@@ -6,6 +6,7 @@
         {{ product.label }} - {{ product.price }}€
       </li>
     </ul>
+    <p v-else-if="errorMessage">{{ errorMessage }}</p>
     <p v-else>Chargement des produits...</p>
   </div>
 </template>
@@ -13,6 +14,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import VivoBack from '@/services/VivoBack.js'
+
+const errorMessage = ref('')
 const products = ref([])
 
 onMounted(async () => {
@@ -20,6 +23,7 @@ onMounted(async () => {
     products.value = await VivoBack.getProducts()
   } catch (error) {
     console.error('Erreur lors du chargement des produits:', error.message)
+    errorMessage.value = error.message
   }
 })
 </script>

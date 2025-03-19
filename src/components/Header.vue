@@ -1,8 +1,9 @@
 <template>
-  <header class="bg-dark border-bottom p-3">
+  <header class="bg-dark border-bottom p-2">
     <div class="container d-flex flex-wrap align-items-center justify-content-between">
       <!-- Logo -->
       <RouterLink to="/" class="d-flex align-items-center text-white text-decoration-none">
+        <img src="/fondecran.png" alt="Logo" class="logo" />
         <span class="fs-4 text-warning">Au P'tit Vivo</span>
       </RouterLink>
 
@@ -74,5 +75,9 @@
 
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.logo {
+  height: 4em;
 }
 </style>

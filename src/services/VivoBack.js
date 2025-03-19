@@ -1,4 +1,11 @@
 import axios from 'axios'
+import { setupCache } from 'axios-cache-adapter'
+
+// Création d'un cache avec une durée de vie de 3 minutes
+const cache = setupCache({
+  maxAge: 3 * 60 * 1000,
+  exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
+})
 
 class VivoBack {
   constructor(baseURL) {
@@ -6,6 +13,7 @@ class VivoBack {
       baseURL,
       withCredentials: true, // Important pour envoyer le cookie d'authentification
       headers: { 'Content-Type': 'application/json' },
+      adapter: cache.adapter, // Utilisation du cache
     })
   }
 
@@ -17,6 +25,13 @@ class VivoBack {
         options.data = data
       }
       const response = await this.api(options)
+
+      // if (response.request.fromCache) {
+      //   console.log('✅ Données chargées depuis le cache')
+      // } else {
+      //   console.log("🔄 Données récupérées depuis l'API")
+      // }
+
       return response.data
     } catch (error) {
       const message = error.response?.data || error.message
