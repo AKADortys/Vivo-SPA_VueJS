@@ -1,9 +1,9 @@
 <template>
-  <header class="bg-dark px-4 py-3 border-bottom">
+  <header class="bg-dark border-bottom p-3">
     <div class="container d-flex flex-wrap align-items-center justify-content-between">
       <!-- Logo -->
       <RouterLink to="/" class="d-flex align-items-center text-white text-decoration-none">
-        <span class="fs-4">Au P'tit Vivo</span>
+        <span class="fs-4 text-warning">Au P'tit Vivo</span>
       </RouterLink>
 
       <!-- Bouton Menu Burger (Mobile) -->
@@ -20,11 +20,11 @@
       </button>
 
       <!-- Menu de navigation -->
-      <div class="collapse d-md-flex justify-content-center" id="menu">
+      <div class="collapse w-md-50 d-md-flex justify-content-center" id="menu">
         <ul class="nav">
           <li>
             <RouterLink to="/" class="nav-link px-2 text-white" active-class="active text-light">
-              Home
+              Accueil
             </RouterLink>
           </li>
           <li>
@@ -33,7 +33,25 @@
               class="nav-link px-2 text-white"
               active-class="active text-light"
             >
-              About
+              Informations
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/contact"
+              class="nav-link px-2 text-white"
+              active-class="active text-light"
+            >
+              Contact
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/produits"
+              class="nav-link px-2 text-white"
+              active-class="active text-light"
+            >
+              Produits
             </RouterLink>
           </li>
         </ul>
@@ -41,8 +59,8 @@
 
       <!-- Boutons Auth (Login/Signup) -->
       <div class="d-md-flex d-none">
-        <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <button type="button" class="btn btn-primary">Sign-up</button>
+        <button type="button" class="btn btn-outline-warning me-2">Login</button>
+        <button type="button" class="btn btn-warning">Sign-up</button>
       </div>
     </div>
   </header>
@@ -51,7 +69,7 @@
 <style scoped>
 .active {
   font-weight: bold;
-  text-decoration: underline;
+  text-decoration: underline gold;
 }
 
 .navbar-toggler-icon {

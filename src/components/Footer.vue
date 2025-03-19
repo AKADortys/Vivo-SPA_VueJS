@@ -1,5 +1,7 @@
 <template>
-  <footer>
-    <p>&copy; {{ new Date().getFullYear() }} My Website. All rights reserved.</p>
+  <footer
+    class="d-flex justify-content-center align-items-center py-1 m-2 bg-dark rounded text-warning"
+  >
+    <p class="p-1 m-0">&copy; {{ new Date().getFullYear() }} Au P'tit Vivo. All rights reserved.</p>
   </footer>
 </template>
