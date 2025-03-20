@@ -60,12 +60,29 @@
 
       <!-- Boutons Auth (Login/Signup) -->
       <div class="d-md-flex d-none">
-        <button type="button" class="btn btn-outline-warning me-2">Login</button>
-        <button type="button" class="btn btn-warning">Sign-up</button>
+        <button type="button" class="btn btn-outline-warning me-2">Se connecter</button>
+        <button type="button" class="btn btn-warning" @click="openModal">S'inscrire</button>
       </div>
     </div>
   </header>
+  <Modal ref="modal">
+    <RegisterForm />
+  </Modal>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import Modal from '@/components/Modal.vue'
+import RegisterForm from '@/components/auth/RegisterForm.vue'
+
+const modal = ref(null)
+
+const openModal = () => {
+  if (modal.value) {
+    modal.value.openModal()
+  }
+}
+</script>
 
 <style scoped>
 .active {
@@ -79,5 +96,6 @@
 
 .logo {
   height: 4em;
+  margin: 0 1em;
 }
 </style>
