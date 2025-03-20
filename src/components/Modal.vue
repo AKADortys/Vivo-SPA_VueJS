@@ -1,6 +1,6 @@
 <template>
   <div v-if="isOpen" class="modal-overlay" @click.self="closeModal">
-    <div class="modal-content w-100 w-md-50">
+    <div class="modal-content">
       <button @click="closeModal" class="btn btn-danger btn-closeModal">X</button>
       <slot></slot>
     </div>
@@ -38,16 +38,13 @@ defineExpose({
 }
 
 .modal-content {
-  position: relative;
-  display: flex;
-  margin: auto;
+  width: 95%;
+  margin: 0.5em auto;
 }
 
 .btn-closeModal {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px;
-  cursor: pointer;
+  top: 0.5em;
+  right: 0.5em;
 }
 </style>

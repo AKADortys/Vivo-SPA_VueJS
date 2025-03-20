@@ -49,6 +49,9 @@ class VivoBack {
     return this.request('post', '/auth/logout')
   }
 
+  register(userData) {
+    return this.request('post', '/users', userData)
+  }
   getUser(userId) {
     return this.request('get', `/users/${userId}`)
   }

@@ -60,13 +60,21 @@
 
       <!-- Boutons Auth (Login/Signup) -->
       <div class="d-md-flex d-none">
-        <button type="button" class="btn btn-outline-warning me-2">Se connecter</button>
-        <button type="button" class="btn btn-warning" @click="openModal">S'inscrire</button>
+        <button type="button" class="btn btn-outline-warning me-2" @click="openLoginModal">
+          Se connecter
+        </button>
+        <button type="button" class="btn btn-warning" @click="openRegisterModal">S'inscrire</button>
       </div>
     </div>
   </header>
-  <Modal ref="modal">
+
+  <!-- Modals -->
+  <Modal ref="registerModal">
     <RegisterForm />
+  </Modal>
+
+  <Modal ref="loginModal">
+    <LoginForm />
   </Modal>
 </template>
 
@@ -74,12 +82,23 @@
 import { ref } from 'vue'
 import Modal from '@/components/Modal.vue'
 import RegisterForm from '@/components/auth/RegisterForm.vue'
+import LoginForm from '@/components/auth/LoginForm.vue'
 
-const modal = ref(null)
+// Références des modals
+const registerModal = ref(null)
+const loginModal = ref(null)
 
-const openModal = () => {
-  if (modal.value) {
-    modal.value.openModal()
+// Ouvrir la modal d'inscription
+const openRegisterModal = () => {
+  if (registerModal.value) {
+    registerModal.value.openModal()
+  }
+}
+
+// Ouvrir la modal de connexion
+const openLoginModal = () => {
+  if (loginModal.value) {
+    loginModal.value.openModal()
   }
 }
 </script>
