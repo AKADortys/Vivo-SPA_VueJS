@@ -30,8 +30,9 @@ const validateForm = () => {
     // Appel du service VivoBack pour la connexion
     VivoBack.login(user)
       .then((response) => {
-        alert('Connexion réussie!')
         form.value = {}
+        sessionStorage.setItem('currentUser', JSON.stringify(response.user))
+        window.location.reload()
       })
       .catch((error) => {
         console.error(error)
@@ -51,7 +52,7 @@ const validateForm = () => {
     class="px-3 py-2 bg-white d-flex flex-wrap gap-3 rounded border border-dark justify-content-center"
   >
     <div
-      class="mb-1 d-flex flex-wrap flex-column col-10 col-md-5 border-bottom border-warning py-1"
+      class="mb-1 d-flex flex-wrap flex-column col-10 col-md-8 border-bottom border-warning py-1"
     >
       <label class="mb-1">Email :</label>
       <input v-model="form.email" type="email" class="form-control" />
@@ -59,7 +60,7 @@ const validateForm = () => {
     </div>
 
     <div
-      class="mb-1 d-flex flex-wrap flex-column col-10 col-md-5 border-bottom border-warning py-1"
+      class="mb-1 d-flex flex-wrap flex-column col-10 col-md-8 border-bottom border-warning py-1"
     >
       <label class="mb-1">Mot de passe :</label>
       <input v-model="form.password" type="password" class="form-control" />
@@ -68,7 +69,7 @@ const validateForm = () => {
 
     <span v-if="errors.general" class="text-danger">{{ errors.general }}</span>
 
-    <div class="d-flex gap-3 mt-1">
+    <div class="d-flex gap-3 col-10 justify-content-center mt-1">
       <button class="btn btn-warning" type="submit">Se connecter</button>
       <button class="btn btn-danger" type="reset">Réinitialiser</button>
     </div>
