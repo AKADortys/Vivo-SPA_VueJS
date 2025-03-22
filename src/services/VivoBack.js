@@ -43,15 +43,15 @@ class VivoBack {
   // Authentification
   login(authData) {
     return this.request('post', '/auth/login', authData)
-  }
+  } //
 
   logout() {
     return this.request('post', '/auth/logout')
-  }
+  } //
 
   register(userData) {
     return this.request('post', '/users', userData)
-  }
+  } //
   getUser(userId) {
     return this.request('get', `/users/${userId}`)
   }
@@ -84,7 +84,7 @@ class VivoBack {
   // Gestion des produits
   getProducts() {
     return this.request('get', '/products')
-  }
+  } //
   getProductById(productId) {
     return this.request('get', `/products/${productId}`)
   }
@@ -99,4 +99,4 @@ class VivoBack {
   }
 }
 
-export default new VivoBack('https://tfm-sgbd-ancelt.onrender.com')
+export default new VivoBack('http://localhost:3300')

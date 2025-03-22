@@ -1,10 +1,14 @@
 <template>
-  <div v-if="isOpen" class="modal-overlay" @click.self="closeModal">
-    <div class="modal-content">
-      <button @click="closeModal" class="btn btn-danger btn-closeModal">X</button>
-      <slot></slot>
-    </div>
-  </div>
+  <Teleport to="body">
+    <Transition name="fade">
+      <div v-if="isOpen" class="modal-overlay" @click.self="closeModal">
+        <div class="modal-content">
+          <button @click="closeModal" class="btn btn-danger btn-closeModal">X</button>
+          <slot></slot>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup>
@@ -20,7 +24,6 @@ const closeModal = () => {
   isOpen.value = false
 }
 
-// Exposez les méthodes pour ouvrir et fermer la modal
 defineExpose({
   openModal,
   closeModal,
@@ -28,6 +31,18 @@ defineExpose({
 </script>
 
 <style scoped>
+/* Ajout de l'animation fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Styles de la modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -43,11 +58,14 @@ defineExpose({
 
 .modal-content {
   margin: 0.5em auto;
+  padding: 1em;
+  border-radius: 0.5em;
+  position: relative;
 }
 
 .btn-closeModal {
   position: absolute;
-  top: 0.5em;
-  right: 0.5em;
+  top: 1.2em;
+  right: 1.2em;
 }
 </style>

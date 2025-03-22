@@ -4,7 +4,7 @@
       <!-- Logo -->
       <RouterLink to="/" class="d-flex align-items-center text-white text-decoration-none">
         <img src="/fondecran.png" alt="Logo" class="logo" />
-        <span class="fs-4 text-warning">Au P'tit Vivo</span>
+        <span class="fs-4 text-warning titre">Au P'tit Vivo</span>
       </RouterLink>
       <div class="d-flex gap-3">
         <!-- Menu de navigation -->
@@ -56,6 +56,12 @@ import AuthMenu from '@/components/auth/LogPanel.vue'
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Love+Light&display=swap');
+
+.titre {
+  font-family: 'Love Light', cursive;
+}
+
 .active {
   font-weight: bold;
   text-decoration: underline gold;

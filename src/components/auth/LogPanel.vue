@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-items-center justify-content-center">
+  <div class="d-flex justify-content-center">
     <!-- Boutons Auth (Login/Signup) -->
     <div v-if="!connected" class="d-flex flex-wrap flex-md-nowrap gap-2">
       <button type="button" class="btn btn-outline-warning me-2" @click="openLoginModal">
@@ -9,7 +9,7 @@
     </div>
 
     <!-- Bouton de Déconnexion -->
-    <div v-else class="d-flex gap-2">
+    <div v-else class="d-flex gap-2 align-items-center">
       <RouterLink to="/dashboard">
         <button type="button" class="btn btn-primary">Mon profil</button>
       </RouterLink>
@@ -60,6 +60,7 @@ const logout = async () => {
     await VivoBack.logout()
     connected.value = false
     sessionStorage.clear()
+    window.location.reload()
   } catch (error) {
     console.error('Logout failed:', error)
   }
