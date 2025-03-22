@@ -68,7 +68,7 @@ const validateForm = () => {
   <!-- Formulaire d'inscription -->
   <form
     @submit.prevent="validateForm"
-    class="px-3 py-2 bg-white d-flex flex-wrap gap-3 rounded border border-dark justify-content-center"
+    class="px-3 py-2 bg-dark bg-gradient bg-opacity-75 text-white d-flex flex-wrap gap-3 rounded border border-dark justify-content-center"
   >
     <div
       class="mb-1 d-flex flex-wrap flex-column col-10 col-md-5 border-bottom border-warning py-1"
@@ -118,7 +118,7 @@ const validateForm = () => {
       <span v-if="errors.telephone" class="text-danger">{{ errors.telephone }}</span>
     </div>
 
-    <div class="d-flex gap-3 mt-1">
+    <div class="d-flex col-12 justify-content-center gap-3 mt-1">
       <button class="btn btn-warning" type="submit">S'inscrire</button>
       <button class="btn btn-danger" type="reset">Réinitialiser</button>
     </div>

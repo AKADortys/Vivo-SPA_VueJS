@@ -31,14 +31,17 @@ defineExpose({
 .modal-overlay {
   position: fixed;
   top: 0;
-  left: auto;
-  width: 100%;
+  left: 0;
   height: 100%;
+  width: 100%;
+  display: flex;
+  padding: 0.2em;
+  justify-content: center;
   background: rgba(0, 0, 0, 0.5);
+  border-radius: 0.2em;
 }
 
 .modal-content {
-  width: 95%;
   margin: 0.5em auto;
 }
 

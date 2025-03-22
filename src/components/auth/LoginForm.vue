@@ -32,6 +32,8 @@ const validateForm = () => {
       .then((response) => {
         form.value = {}
         sessionStorage.setItem('currentUser', JSON.stringify(response.user))
+        // rafraichir la page
+        window.location.reload()
       })
       .catch((error) => {
         console.error(error)
@@ -48,7 +50,7 @@ const validateForm = () => {
 <template>
   <form
     @submit.prevent="validateForm"
-    class="px-3 py-2 bg-white d-flex flex-wrap gap-3 rounded border border-dark justify-content-center"
+    class="px-3 py-2 bg-dark bg-gradient bg-opacity-75 text-white d-flex flex-wrap gap-3 rounded border border-dark justify-content-center"
   >
     <div
       class="mb-1 d-flex flex-wrap flex-column col-10 col-md-8 border-bottom border-warning py-1"
