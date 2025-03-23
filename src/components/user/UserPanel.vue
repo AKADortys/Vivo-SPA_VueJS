@@ -1,8 +1,8 @@
 <template>
   <div
-    class="d-flex flex-wrap bg-dark bg-gradient rounded justify-content-center col-12 col-md-4 border border-warning"
+    class="d-flex flex-wrap bg-dark bg-gradient rounded justify-content-center p-4 border border-warning shadow-lg"
   >
-    <div v-if="connected" class="p-3 text-white justify-content-center">
+    <div v-if="connected" class="text-white justify-content-center">
       <div class="d-block mt-2">
         <p>Nom</p>
         <span>{{ user.name + ' ' + user.lastName }}</span>
@@ -26,14 +26,16 @@
         }}</span>
       </div>
     </div>
-    <div v-else class="text-danger text-center bg-dark bg-gradient">
+    <div v-else class="text-danger text-center d-flex gap-2 align-items-center">
       <p>{{ errorMessage }}</p>
+      <LogPanel />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import LogPanel from '@/components/auth/LogPanel.vue'
 
 const user = ref({})
 const errorMessage = ref('')

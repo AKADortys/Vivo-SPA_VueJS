@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <main class="d-flex p-4">
+  <main class="d-flex flex-wrap gap-3 p-4 bg-secondary">
     <router-view />
   </main>
   <Footer />
