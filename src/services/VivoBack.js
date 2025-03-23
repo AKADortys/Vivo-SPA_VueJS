@@ -99,4 +99,4 @@ class VivoBack {
   }
 }
 
-export default new VivoBack('http://localhost:3300')
+export default new VivoBack('https://vivo-spa-vue-js.vercel.app/')
