@@ -1,8 +1,9 @@
 <template>
-  <div
-    class="d-flex flex-wrap bg-dark bg-gradient rounded justify-content-center p-4 border border-warning shadow-lg"
-  >
-    <div v-if="connected" class="text-white justify-content-center">
+  <div class="col-12 col-md-6 col-lg-3 d-flex flex-wrap justify-content-center">
+    <div
+      v-if="connected"
+      class="text-white justify-content-center p-2 border border-warning shadow-lg bg-dark bg-gradient rounded"
+    >
       <div class="d-block mt-2">
         <p>Nom</p>
         <span>{{ user.name + ' ' + user.lastName }}</span>
@@ -25,8 +26,14 @@
           })
         }}</span>
       </div>
+      <div class="d-block mt-2">
+        <button class="btn btn-warning">Modifier</button>
+      </div>
     </div>
-    <div v-else class="text-danger text-center d-flex gap-2 align-items-center">
+    <div
+      v-else
+      class="text-danger text-center d-flex align-items-center justify-content-center p-2 border border-warning shadow-lg bg-dark bg-gradient rounded"
+    >
       <p>{{ errorMessage }}</p>
       <LogPanel />
     </div>

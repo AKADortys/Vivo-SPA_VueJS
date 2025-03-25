@@ -53,7 +53,7 @@ class VivoBack {
     return this.request('post', '/users', userData)
   } //
   getUser(userId) {
-    return this.request('get', `/users/${userId}`)
+    const user = this.request('get', `/users/${userId}`)
   }
 
   // Gestion des commandes
@@ -99,4 +99,4 @@ class VivoBack {
   }
 }
 
-export default new VivoBack('https://tfm-sgbd-ancelt.onrender.com')
+export default new VivoBack('http://localhost:3300')

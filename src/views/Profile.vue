@@ -1,10 +1,12 @@
 <template>
-  <UserPanel />
-  <UserOrders />
+  <div class="d-flex flex-wrap align-items-center">
+    <UserPanel />
+    <UserOrders />
+  </div>
 </template>
 <script>
 import UserPanel from '@/components/user/UserPanel.vue'
-import UserOrders from '@/components/user/UserOrders.vue'
+import UserOrders from '@/components/orders/UserOrdersHistoric.vue'
 
 export default {
   components: {
