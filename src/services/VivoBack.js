@@ -101,4 +101,4 @@ class VivoBack {
   }
 }
 
-export default new VivoBack('http://localhost:3300')
+export default new VivoBack('https://tfm-sgbd-ancelt.onrender.com')
