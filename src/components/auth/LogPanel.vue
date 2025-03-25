@@ -29,6 +29,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Modal from '@/components/Modal.vue'
 import RegisterForm from '@/components/auth/RegisterForm.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
@@ -39,6 +40,7 @@ const registerModal = ref(null)
 const loginModal = ref(null)
 const connected = ref(false)
 const currentUser = ref({})
+const router = useRouter()
 
 onMounted(() => {
   const data = JSON.parse(sessionStorage.getItem('currentUser'))
@@ -60,7 +62,7 @@ const logout = async () => {
     await VivoBack.logout()
     connected.value = false
     sessionStorage.clear()
-    window.location.reload()
+    router.push('/')
   } catch (error) {
     console.error('Logout failed:', error)
   }

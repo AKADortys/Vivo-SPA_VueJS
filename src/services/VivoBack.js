@@ -82,8 +82,10 @@ class VivoBack {
   }
 
   // Gestion des produits
-  getProducts() {
-    return this.request('get', '/products')
+  async getProducts() {
+    const data = await this.request('get', '/products')
+    sessionStorage.setItem('products', JSON.stringify(data))
+    return data
   } //
   getProductById(productId) {
     return this.request('get', `/products/${productId}`)
