@@ -6,9 +6,9 @@
         <img src="/fondecran.png" alt="Logo" class="logo" />
         <span class="fs-4 text-warning titre">Au P'tit Vivo</span>
       </RouterLink>
-      <div class="d-flex gap-3">
+      <div>
         <!-- Menu de navigation -->
-        <div class="d-md-flex justify-content-center">
+        <div class="d-flex justify-content-center">
           <ul class="nav">
             <li>
               <RouterLink to="/" class="nav-link px-2 text-white" active-class="active text-light">
