@@ -1,8 +1,8 @@
 <template>
-  <div class="col-12 col-md-6 col-lg-3 d-flex flex-wrap justify-content-center">
+  <div class="col-12 col-md-4 col-lg-5 d-flex flex-wrap justify-content-center mb-2">
     <div
       v-if="connected"
-      class="text-white justify-content-center p-2 border border-warning shadow-lg bg-dark bg-gradient rounded"
+      class="w-75 text-white p-2 border border-warning shadow-lg bg-dark bg-gradient rounded"
     >
       <div class="d-block mt-2">
         <p>Nom</p>

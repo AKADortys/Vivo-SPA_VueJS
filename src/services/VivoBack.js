@@ -58,7 +58,7 @@ class VivoBack {
 
   updateUser(userId, userData) {
     return this.request('put', `/users/${userId}`, userData)
-  }
+  } //
 
   // Gestion des commandes
   getOrders() {
@@ -67,11 +67,11 @@ class VivoBack {
 
   getUserOrders(userId) {
     return this.request('get', `/orders/user/${userId}`)
-  }
+  } //
 
   getOrderById(orderId) {
     return this.request('get', `/orders/${orderId}`)
-  }
+  } //
 
   createOrder(orderData) {
     return this.request('post', '/orders', orderData)
@@ -105,4 +105,4 @@ class VivoBack {
   }
 }
 
-export default new VivoBack('https://tfm-sgbd-ancelt.onrender.com') //"https://tfm-sgbd-ancelt.onrender.com" || "http://localhost:3300
+export default new VivoBack('http://localhost:3300') //"https://tfm-sgbd-ancelt.onrender.com" || "http://localhost:3300

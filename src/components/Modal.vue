@@ -58,8 +58,8 @@ defineExpose({
 
 .modal-content {
   position: absolute;
-  width: 60%;
-  top: 25%;
+  width: 80%;
+  top: 5%;
   left: auto;
   padding: 1em;
   border-radius: 0.5em;

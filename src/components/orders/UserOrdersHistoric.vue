@@ -1,6 +1,6 @@
 <template>
   <div
-    class="col-12 col-md-8 p-2 bg-dark bg-gradient rounded border border-warning text-white shadow-lg d-flex flex-wrap justify-content-center align-items-center overflow-auto mainContent"
+    class="col-12 col-md-8 col-lg-7 p-2 bg-dark bg-gradient rounded border border-warning text-white shadow-lg d-flex flex-wrap justify-content-center align-items-center overflow-auto mainContent"
   >
     <h3 class="w-75 text-center mb-4">Historique des commandes</h3>
     <div>
@@ -66,7 +66,6 @@ onMounted(async () => {
     try {
       const response = await VivoBack.getUserOrders(user.value._id)
       order.value = Array.isArray(response) ? response : []
-      console.log('Commandes récupérées :', order.value)
     } catch (error) {
       if (error.message === 'Token invalide ou expiré') {
         errorMessage.value = 'Connexion expirée'

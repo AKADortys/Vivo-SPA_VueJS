@@ -2,6 +2,14 @@
 import { ref, onMounted } from 'vue'
 import VivoBack from '@/services/VivoBack.js'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
+
+const currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
+const router = useRouter()
+
+if (!currentUser) {
+  router.push('/')
+}
 
 const route = useRoute()
 const id = route.params.id

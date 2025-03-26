@@ -1,13 +1,5 @@
 <template>
-  <ListProduct />
+  <h1>Home</h1>
 </template>
 
-<script>
-import ListProduct from '@/components/products/ListProduct.vue'
-
-export default {
-  components: {
-    ListProduct,
-  },
-}
-</script>
+<script></script>

@@ -41,6 +41,7 @@ const updateUser = () => {
       .then((response) => {
         alert('Mise à jour réussie !')
         sessionStorage.setItem('currentUser', JSON.stringify(response.user))
+        location.reload()
       })
       .catch((error) => {
         console.error(error)

@@ -6,45 +6,44 @@
         <img src="/fondecran.png" alt="Logo" class="logo" />
         <span class="fs-4 text-warning titre">Au P'tit Vivo</span>
       </RouterLink>
-      <div>
-        <!-- Menu de navigation -->
-        <div class="d-flex justify-content-center">
-          <ul class="nav">
-            <li>
-              <RouterLink to="/" class="nav-link px-2 text-white" active-class="active text-light">
-                Accueil
-              </RouterLink>
-            </li>
-            <li>
-              <RouterLink
-                to="/about"
-                class="nav-link px-2 text-white"
-                active-class="active text-light"
-              >
-                Informations
-              </RouterLink>
-            </li>
-            <li>
-              <RouterLink
-                to="/contact"
-                class="nav-link px-2 text-white"
-                active-class="active text-light"
-              >
-                Contact
-              </RouterLink>
-            </li>
-            <li>
-              <RouterLink
-                to="/produits"
-                class="nav-link px-2 text-white"
-                active-class="active text-light"
-              >
-                Produits
-              </RouterLink>
-            </li>
-          </ul>
-        </div>
+      <!-- Menu de navigation -->
+      <div class="d-flex justify-content-center">
+        <ul class="nav">
+          <li>
+            <RouterLink to="/" class="nav-link px-2 text-white" active-class="active text-light">
+              Accueil
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/about"
+              class="nav-link px-2 text-white"
+              active-class="active text-light"
+            >
+              Informations
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/contact"
+              class="nav-link px-2 text-white"
+              active-class="active text-light"
+            >
+              Contact
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/produits"
+              class="nav-link px-2 text-white"
+              active-class="active text-light"
+            >
+              Produits
+            </RouterLink>
+          </li>
+        </ul>
       </div>
+
       <!-- Auth Menu -->
       <AuthMenu />
     </div>
