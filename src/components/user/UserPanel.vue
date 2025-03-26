@@ -27,8 +27,11 @@
         }}</span>
       </div>
       <div class="d-block mt-2">
-        <button class="btn btn-warning">Modifier</button>
+        <button class="btn btn-warning" @click="openModal">Modifier</button>
       </div>
+      <Modal ref="updateUser">
+        <UserUpdateForm />
+      </Modal>
     </div>
     <div
       v-else
@@ -43,10 +46,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import LogPanel from '@/components/auth/LogPanel.vue'
+import UserUpdateForm from '@/components/user/UserUpdateForm.vue'
+import Modal from '@/components/Modal.vue'
 
 const user = ref({})
 const errorMessage = ref('')
 const connected = ref(false)
+const updateUser = ref(null)
+
+const openModal = () => updateUser.value?.openModal()
 
 onMounted(async () => {
   try {

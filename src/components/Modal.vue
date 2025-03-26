@@ -57,7 +57,10 @@ defineExpose({
 }
 
 .modal-content {
-  margin: 0.5em auto;
+  position: absolute;
+  width: 60%;
+  top: 25%;
+  left: auto;
   padding: 1em;
   border-radius: 0.5em;
   position: relative;
