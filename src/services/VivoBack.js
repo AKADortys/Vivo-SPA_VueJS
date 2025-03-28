@@ -26,11 +26,11 @@ class VivoBack {
       }
       const response = await this.api(options)
 
-      // if (response.request.fromCache) {
-      //   console.log('✅ Données chargées depuis le cache')
-      // } else {
-      //   console.log("🔄 Données récupérées depuis l'API")
-      // }
+      if (response.request.fromCache) {
+        console.log('✅ Données chargées depuis le cache')
+      } else {
+        console.log("🔄 Données récupérées depuis l'API")
+      }
 
       return response.data
     } catch (error) {
@@ -53,7 +53,7 @@ class VivoBack {
     return this.request('post', '/users', userData)
   } //
   getUser(userId) {
-    const user = this.request('get', `/users/${userId}`)
+    return this.request('get', `/users/${userId}`)
   }
 
   updateUser(userId, userData) {
@@ -105,4 +105,4 @@ class VivoBack {
   }
 }
 
-export default new VivoBack('http://localhost:3300') //"https://tfm-sgbd-ancelt.onrender.com" || "http://localhost:3300
+export default new VivoBack(import.meta.env.VITE_BACK_URI) //"https://tfm-sgbd-ancelt.onrender.com" || "http://localhost:3300
