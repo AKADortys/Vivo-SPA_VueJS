@@ -9,13 +9,17 @@
       <h2 class="text-center text-warning">{{ cat }}</h2>
       <div class="d-flex flex-wrap">
         <div
-          v-for="product in filteredProducts(cat)"
+          v-for="product in filteredProducts[cat]"
           :key="product._id"
-          class="card bg-secondary bg-gradient p-2 col-12 col-md-6"
+          class="card bg-secondary bg-gradient p-2 col-12 col-md-6 text-center"
         >
           <h3 class="text-white">{{ product.label }}</h3>
           <p>{{ product.description }}</p>
           <p class="price">Prix : {{ product.price }} €</p>
+          <div class="d-flex justify-content-center gap-1 mt-2">
+            <input :name="product._id" type="number" class="form-control text-end" />
+            <button @click="addToCart(product)" class="btn btn-warning">Ajouter</button>
+          </div>
         </div>
       </div>
     </div>
@@ -25,8 +29,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import VivoBack from '@/services/VivoBack.js'
+import { ref, onMounted, computed, inject } from 'vue'
+
+const VivoBack = inject('VivoBack')
 
 const errorMessage = ref(null)
 const products = ref([])
@@ -34,16 +39,23 @@ const category = ref(['Plat principal', 'Dessert', 'Boisson', 'Divers'])
 
 onMounted(async () => {
   try {
-    products.value = await VivoBack.getProducts()
+    const response = await VivoBack.getProducts()
+    products.value = response
   } catch (error) {
-    if (error === 'Network Error') return (errorMessage.value = 'Une erreur réseau est survenue')
-    errorMessage.value = error.errorMessage
-    console.error('Erreur lors du chargement des produits:', error.message)
+    console.error('Erreur lors du chargement des produits:', error)
+    errorMessage.value = error.response?.data?.message || 'Une erreur réseau est survenue'
   }
 })
 
-// Filtrer les produits par catégorie et disponibilité
-const filteredProducts = (cat) => {
-  return products.value.filter((product) => product.category === cat && product.available)
+const filteredProducts = computed(() => {
+  const grouped = {}
+  category.value.forEach((cat) => {
+    grouped[cat] = products.value.filter((p) => p.category === cat && p.available)
+  })
+  return grouped
+})
+
+const addToCart = (product) => {
+  console.log(`Ajout de ${product.label} au panier`)
 }
 </script>

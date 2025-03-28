@@ -49,8 +49,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import VivoBack from '@/services/VivoBack.js'
+import { ref, onMounted, inject } from 'vue'
+
+const VivoBack = inject('VivoBack')
 
 const user = ref({})
 const order = ref([])

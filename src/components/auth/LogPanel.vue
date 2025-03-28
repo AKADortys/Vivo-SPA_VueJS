@@ -28,13 +28,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import Modal from '@/components/Modal.vue'
 import RegisterForm from '@/components/auth/RegisterForm.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
-import VivoBack from '@/services/VivoBack.js'
 
+const VivoBack = inject('VivoBack')
 // Références des modals
 const registerModal = ref(null)
 const loginModal = ref(null)

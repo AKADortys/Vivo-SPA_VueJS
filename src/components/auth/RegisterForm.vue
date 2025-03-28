@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { z } from 'zod'
-import VivoBack from '@/services/VivoBack'
+
+const VivoBack = inject('VivoBack')
 
 // Définition du schéma de validation avec Zod
 const schema = z

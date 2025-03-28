@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { z } from 'zod'
-import VivoBack from '@/services/VivoBack'
 
+const VivoBack = inject('VivoBack')
 const currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
 
 // Schéma de validation

@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import VivoBack from '@/services/VivoBack.js'
+import { ref, onMounted, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 
+const VivoBack = inject('VivoBack')
 const currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
 const router = useRouter()
 
