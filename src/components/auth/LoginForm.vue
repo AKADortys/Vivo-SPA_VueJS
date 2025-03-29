@@ -34,7 +34,7 @@ const validateForm = () => {
         form.value = {}
         sessionStorage.setItem('currentUser', JSON.stringify(response.user))
         // rafraichir la page
-        // window.location.reload()
+        window.location.reload()
       })
       .catch((error) => {
         console.error(error)

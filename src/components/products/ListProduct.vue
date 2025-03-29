@@ -6,21 +6,17 @@
       :key="cat"
       class="bg-dark p-2 border border-warning rounded mt-2"
     >
-      <h2 class="text-center text-warning">{{ cat }}</h2>
+      <h2 class="mb-4 text-center text-warning">{{ cat }}</h2>
       <div class="d-flex flex-wrap gap-2 justify-content-center">
         <div
           v-for="product in filteredProducts[cat]"
           :key="product._id"
-          class="card bg-secondary bg-gradient p-2 col-12 col-md-5 text-center"
+          class="card bg-secondary bg-gradient p-2 col-12 col-md-5 text-center pe-auto user-select-none product-card"
+          @click="addToCart(product)"
         >
           <h3 class="text-white">{{ product.label }}</h3>
           <p>{{ product.description }}</p>
           <p class="price">Prix : {{ product.price }} €</p>
-          <div
-            class="d-flex justify-content-center gap-1 p-2 mt-2 mx-auto mt-2 bg-dark rounded border border-warning"
-          >
-            <button @click="addToCart(product)" class="btn btn-warning">Ajouter</button>
-          </div>
         </div>
       </div>
     </div>
@@ -69,3 +65,14 @@ const addToCart = (product) => {
   panierStore.ajouterProduit(formatProduct)
 }
 </script>
+
+<style>
+.product-card {
+  cursor: pointer;
+  transition: border 0.1s ease;
+}
+
+.product-card:hover {
+  border: gold solid 0.1em;
+}
+</style>
