@@ -7,17 +7,18 @@
       class="bg-dark p-2 border border-warning rounded mt-2"
     >
       <h2 class="text-center text-warning">{{ cat }}</h2>
-      <div class="d-flex flex-wrap">
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
         <div
           v-for="product in filteredProducts[cat]"
           :key="product._id"
-          class="card bg-secondary bg-gradient p-2 col-12 col-md-6 text-center"
+          class="card bg-secondary bg-gradient p-2 col-12 col-md-5 text-center"
         >
           <h3 class="text-white">{{ product.label }}</h3>
           <p>{{ product.description }}</p>
           <p class="price">Prix : {{ product.price }} €</p>
-          <div class="d-flex justify-content-center gap-1 mt-2">
-            <input :name="product._id" type="number" class="form-control text-end" />
+          <div
+            class="d-flex justify-content-center gap-1 p-2 mt-2 mx-auto mt-2 bg-dark rounded border border-warning"
+          >
             <button @click="addToCart(product)" class="btn btn-warning">Ajouter</button>
           </div>
         </div>
@@ -30,7 +31,9 @@
 
 <script setup>
 import { ref, onMounted, computed, inject } from 'vue'
+import { usePanierStore } from '@/store/cartStore'
 
+const panierStore = usePanierStore()
 const VivoBack = inject('VivoBack')
 
 const errorMessage = ref(null)
@@ -57,5 +60,12 @@ const filteredProducts = computed(() => {
 
 const addToCart = (product) => {
   console.log(`Ajout de ${product.label} au panier`)
+  const formatProduct = {
+    id: product._id,
+    label: product.label,
+    price: product.price,
+    quantity: 1,
+  }
+  panierStore.ajouterProduit(formatProduct)
 }
 </script>
