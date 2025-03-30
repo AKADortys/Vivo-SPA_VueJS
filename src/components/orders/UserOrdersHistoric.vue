@@ -1,6 +1,6 @@
 <template>
   <div
-    class="col-12 col-md-8 col-lg-7 p-2 bg-dark bg-gradient rounded border border-warning text-white shadow-lg d-flex flex-wrap justify-content-center align-items-center overflow-auto mainContent"
+    class="col-12 col-md-8 p-2 bg-dark bg-gradient rounded border border-warning text-white shadow-lg d-flex flex-wrap justify-content-center align-items-center overflow-auto mainContent"
   >
     <h3 class="w-75 text-center mb-4">Historique des commandes</h3>
     <div>
@@ -37,9 +37,8 @@
               <p class="text-center">
                 Total <span class="text-warning">{{ orderItem.totalPrice }} €</span>
               </p>
-              <RouterLink :to="`order/${orderItem._id}`">
-                <button class="btn btn-primary">Voir détails</button>
-              </RouterLink>
+              <RouterLink :to="`/order/${orderItem._id}`"></RouterLink>
+              <button class="btn btn-primary">Voir détails</button>
             </div>
           </div>
         </section>
@@ -49,39 +48,39 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useUserStore } from '@/store/userStore'
 
-const VivoBack = inject('VivoBack')
+// Récupération du store User
+const userStore = useUserStore()
 
-const user = ref({})
+const user = ref(null)
 const order = ref([])
 const errorMessage = ref('')
 const loading = ref(true)
 
 onMounted(async () => {
   loading.value = true
-  const data = sessionStorage.getItem('currentUser')
+  try {
+    await userStore.chargerUtilisateur()
+    user.value = userStore.utilisateur
 
-  if (data) {
-    user.value = JSON.parse(data)
-    try {
-      const response = await VivoBack.getUserOrders(user.value._id)
+    if (user.value) {
+      const response = await userStore.getOrders(user.value.id)
       order.value = Array.isArray(response) ? response : []
-    } catch (error) {
-      if (error.message === 'Token invalide ou expiré') {
-        errorMessage.value = 'Connexion expirée'
-        sessionStorage.removeItem('currentUser')
-        window.location.reload()
-      } else {
-        errorMessage.value = 'Une erreur est survenue lors de la récupération des commandes.'
-        console.error('Erreur lors de la récupération des commandes :', error)
-      }
+    } else {
+      errorMessage.value = 'Utilisateur non connecté'
     }
-  } else {
-    errorMessage.value = 'Utilisateur non connecté'
+  } catch (error) {
+    if (error.message === 'Token invalide ou expiré') {
+      errorMessage.value = 'Connexion expirée'
+    } else {
+      errorMessage.value = 'Une erreur est survenue lors de la récupération des commandes.'
+      console.error('Erreur lors de la récupération des commandes :', error)
+    }
+  } finally {
+    loading.value = false
   }
-
-  loading.value = false
 })
 </script>
 

@@ -1,8 +1,11 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
 import { z } from 'zod'
+import { useUserStore } from '@/store/userStore'
 
-const VivoBack = inject('VivoBack')
+// Récupération du store User
+
+const userStore = useUserStore()
 
 // Définition du schéma de validation avec Zod
 const schema = z
@@ -33,7 +36,7 @@ const form = ref({
 
 const errors = ref({})
 
-const validateForm = () => {
+const validateForm = async () => {
   errors.value = {}
   const result = schema.safeParse(form.value)
 
@@ -46,12 +49,18 @@ const validateForm = () => {
       phone: form.value.telephone,
     }
     // Appel du service VivoBack pour inscription
-    VivoBack.register(user)
+    await userStore
+      .register(user)
       .then((response) => {
-        // Afficher un message de confirmation
-        alert('Inscription réussie!')
-        // Reinitialiser le formulaire
-        form.value = {}
+        if (!response) {
+          errors.value.general = 'Une erreur est survenue lors de la connection'
+        } else {
+          // Afficher un message de confirmation
+          alert('Inscription réussie!')
+          // Reinitialiser le formulaire
+          form.value = {}
+          location.reload()
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -123,5 +132,6 @@ const validateForm = () => {
       <button class="btn btn-warning" type="submit">S'inscrire</button>
       <button class="btn btn-danger" type="reset">Réinitialiser</button>
     </div>
+    <span v-if="errors.general">{{ errors.general }}</span>
   </form>
 </template>

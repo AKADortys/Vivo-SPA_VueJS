@@ -1,9 +1,35 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, onMounted } from 'vue'
 import { z } from 'zod'
+import { useUserStore } from '@/store/userStore'
 
-const VivoBack = inject('VivoBack')
-const currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
+const userStore = useUserStore()
+
+const currentUser = ref(null)
+const form = ref({
+  nom: '',
+  prenom: '',
+  email: '',
+  telephone: '',
+})
+const errors = ref({})
+
+onMounted(async () => {
+  try {
+    await userStore.chargerUtilisateur()
+    currentUser.value = userStore.utilisateur
+    if (currentUser.value) {
+      form.value = {
+        nom: currentUser.value.lastName || '',
+        prenom: currentUser.value.name || '',
+        email: currentUser.value.mail || '',
+        telephone: currentUser.value.phone || '',
+      }
+    }
+  } catch (error) {
+    console.error('Error loading user:', error)
+  }
+})
 
 // Schéma de validation
 const schema = z.object({
@@ -15,17 +41,7 @@ const schema = z.object({
     .regex(/^((\+33|0)[1-9])(\d{8})$/, 'Numéro invalide (ex: 06XXXXXXXX ou +336XXXXXXXX).'),
 })
 
-// Remplissage des champs avec les données actuelles
-const form = ref({
-  nom: currentUser?.lastName || '',
-  prenom: currentUser?.name || '',
-  email: currentUser?.mail || '',
-  telephone: currentUser?.phone || '',
-})
-
-const errors = ref({})
-
-const updateUser = () => {
+const updateUser = async () => {
   errors.value = {}
   const result = schema.safeParse(form.value)
 
@@ -37,14 +53,24 @@ const updateUser = () => {
       phone: form.value.telephone,
     }
 
-    VivoBack.updateUser(currentUser._id, updatedUser)
-      .then((response) => {
+    try {
+      if (!currentUser.value || !currentUser.value.id) {
+        alert('Erreur : utilisateur non chargé.')
+        return
+      }
+
+      const response = await userStore.updateUser(currentUser.value.id, updatedUser)
+      if (response) {
+        await userStore.chargerUtilisateur()
+        currentUser.value = userStore.utilisateur
         alert('Mise à jour réussie !')
-        sessionStorage.setItem('currentUser', JSON.stringify(response.user))
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+        location.reload()
+      } else {
+        alert("Erreur lors de la mise à jour de l'utilisateur.")
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de l'utilisateur :", error)
+    }
   } else {
     result.error.errors.forEach((error) => {
       errors.value[error.path[0]] = error.message

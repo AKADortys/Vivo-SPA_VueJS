@@ -1,8 +1,11 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
 import { z } from 'zod'
+import { useUserStore } from '@/store/userStore'
 
-const VivoBack = inject('VivoBack')
+// Récupération du store User
+
+const userStore = useUserStore()
 
 // Définition du schéma de validation avec Zod
 const schema = z.object({
@@ -29,10 +32,15 @@ const validateForm = () => {
     }
 
     // Appel du service VivoBack pour la connexion
-    VivoBack.login(user)
+    userStore
+      .authenticate(user)
       .then((response) => {
+        if (!response) {
+          console.error('Authentication failed')
+          errors.value.general = "L'authentication a échoué "
+        }
         form.value = {}
-        sessionStorage.setItem('currentUser', JSON.stringify(response.user))
+        //prévoir alert SweetAlert
         // rafraichir la page
         window.location.reload()
       })

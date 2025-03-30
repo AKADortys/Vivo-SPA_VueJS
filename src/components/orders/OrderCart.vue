@@ -4,10 +4,9 @@ import { usePanierStore } from '@/store/cartStore'
 
 const panierStore = usePanierStore()
 const VivoBack = inject('VivoBack')
-
 // Charger le panier depuis Dexie au montage du composant
-onMounted(() => {
-  panierStore.chargerPanier()
+onMounted(async () => {
+  await panierStore.chargerPanier()
 })
 
 const supprimerProduit = (id) => {
@@ -65,6 +64,7 @@ const confirm = () => {
         </tr>
       </tbody>
     </table>
+    <p class="text-warning border-bottom text-center mb-2 p-2">Total : {{ panierStore.total }}</p>
     <div class="d-flex justify-content-center gap-3">
       <button class="btn btn-danger" @click="viderPanier()">Vider le panier</button>
       <button class="btn btn-success" @click="confirm()">Confirmer la commande</button>

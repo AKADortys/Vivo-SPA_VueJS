@@ -28,13 +28,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Modal from '@/components/Modal.vue'
 import RegisterForm from '@/components/auth/RegisterForm.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
+import { useUserStore } from '@/store/userStore'
 
-const VivoBack = inject('VivoBack')
+// Récupération du store User
+const userStore = useUserStore()
+
 // Références des modals
 const registerModal = ref(null)
 const loginModal = ref(null)
@@ -42,11 +45,11 @@ const connected = ref(false)
 const currentUser = ref({})
 const router = useRouter()
 
-onMounted(() => {
-  const data = JSON.parse(sessionStorage.getItem('currentUser'))
-  if (data) {
+onMounted(async () => {
+  await userStore.chargerUtilisateur()
+  if (useUserStore.utilisateur !== null) {
     connected.value = true
-    currentUser.value = data
+    currentUser.value = userStore.utilisateur
   }
 })
 
@@ -59,9 +62,8 @@ const openLoginModal = () => loginModal.value?.openModal()
 // Méthode de déconnexion
 const logout = async () => {
   try {
-    await VivoBack.logout()
+    await userStore.logout()
     connected.value = false
-    sessionStorage.clear()
     router.push('/')
   } catch (error) {
     console.error('Logout failed:', error)

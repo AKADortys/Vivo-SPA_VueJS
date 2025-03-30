@@ -1,28 +1,21 @@
 <template>
-  <div class="col-12">
-    <div
-      v-if="products.length"
-      v-for="cat in category"
-      :key="cat"
-      class="bg-dark p-2 border border-warning rounded mt-2"
-    >
-      <h2 class="mb-4 text-center text-warning">{{ cat }}</h2>
-      <div class="d-flex flex-wrap gap-2 justify-content-center">
-        <div
-          v-for="product in filteredProducts[cat]"
-          :key="product._id"
-          class="card bg-secondary bg-gradient p-2 col-12 col-md-5 text-center pe-auto user-select-none product-card"
-          @click="addToCart(product)"
-        >
-          <h3 class="text-white">{{ product.label }}</h3>
-          <p>{{ product.description }}</p>
-          <p class="price">Prix : {{ product.price }} €</p>
-        </div>
+  <div v-if="products.length" v-for="cat in category" :key="cat" class="p-2 mt-2">
+    <h2 class="mb-4 text-center text-warning display-2">{{ cat }}</h2>
+    <div class="d-flex flex-wrap gap-2 justify-content-center">
+      <div
+        v-for="product in filteredProducts[cat]"
+        :key="product._id"
+        class="card bg-dark bg-gradient p-2 col-12 col-md-5 text-center pe-auto user-select-none product-card"
+        @click="addToCart(product)"
+      >
+        <h3 class="text-white">{{ product.label }}</h3>
+        <p class="text-primary">{{ product.description }}</p>
+        <p class="text-primary">Prix : {{ product.price }} €</p>
       </div>
     </div>
-    <p v-else-if="errorMessage">{{ errorMessage }}</p>
-    <p v-else>Chargement des produits...</p>
   </div>
+  <p v-else-if="errorMessage">{{ errorMessage }}</p>
+  <p v-else>Chargement des produits...</p>
 </template>
 
 <script setup>
@@ -69,10 +62,14 @@ const addToCart = (product) => {
 <style>
 .product-card {
   cursor: pointer;
-  transition: border 0.1s ease;
+  transition:
+    border 0.1s ease,
+    transform 0.2s ease;
 }
 
 .product-card:hover {
   border: gold solid 0.1em;
+  transform: scale(1.1);
+  z-index: 1;
 }
 </style>
