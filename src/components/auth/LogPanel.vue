@@ -47,7 +47,7 @@ const router = useRouter()
 
 onMounted(async () => {
   await userStore.chargerUtilisateur()
-  if (useUserStore.utilisateur !== null) {
+  if (userStore.utilisateur !== null) {
     connected.value = true
     currentUser.value = userStore.utilisateur
   }

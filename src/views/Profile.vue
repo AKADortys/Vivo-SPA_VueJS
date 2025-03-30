@@ -1,4 +1,5 @@
 <template>
+  <h1 class="display-1 mb-4 titre">Tableau de bord</h1>
   <div class="d-flex flex-wrap align-items-center">
     <UserPanel />
     <UserOrdersHistoric />

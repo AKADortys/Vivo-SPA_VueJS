@@ -1,4 +1,5 @@
 <template>
+  <h1 class="display-1 mb-4 titre">Nos produits</h1>
   <ListProducts />
   <OrderCart />
 </template>
