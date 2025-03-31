@@ -1,26 +1,50 @@
 <template>
-  <div
-    v-if="products.length"
-    v-for="cat in category"
-    :key="cat"
-    class="bg-dark bg-gradient p-2 rounded border"
-  >
-    <h2 class="mb-4 text-center text-warning display-2">{{ cat }}</h2>
-    <div class="d-flex flex-wrap gap-2 justify-content-center">
+  <div class="accordion" id="categoryAccordion">
+    <div v-for="cat in category" :key="cat" class="accordion-item bg-dark text-white">
+      <!-- Titre de la catégorie -->
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button text-warning bg-dark collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          :data-bs-target="'#collapse-' + cat.replace(/\s+/g, '')"
+          aria-expanded="false"
+          :aria-controls="'collapse-' + cat.replace(/\s+/g, '')"
+        >
+          {{ cat }}
+        </button>
+      </h2>
+
+      <!-- Contenu de la catégorie -->
       <div
-        v-for="product in filteredProducts[cat]"
-        :key="product._id"
-        class="card bg-secondary bg-gradient p-2 col-12 col-md-5 text-center pe-auto user-select-none product-card"
-        @click="addToCart(product)"
+        :id="'collapse-' + cat.replace(/\s+/g, '')"
+        class="accordion-collapse collapse"
+        data-bs-parent="#categoryAccordion"
       >
-        <h3 class="text-white">{{ product.label }}</h3>
-        <p class="text-warning">{{ product.description }}</p>
-        <p class="text-warning">Prix : {{ product.price }} €</p>
+        <div class="accordion-body">
+          <div
+            v-if="filteredProducts[cat].length"
+            class="d-flex flex-wrap gap-2 justify-content-center"
+          >
+            <div
+              v-for="product in filteredProducts[cat]"
+              :key="product._id"
+              class="card bg-secondary bg-gradient p-2 col-12 col-md-5 text-center pe-auto user-select-none product-card"
+              @click="addToCart(product)"
+            >
+              <h3 class="text-white">{{ product.label }}</h3>
+              <p class="text-warning">{{ product.description }}</p>
+              <p class="text-warning">Prix : {{ product.price }} €</p>
+            </div>
+          </div>
+          <p v-else class="text-center text-warning">Aucun produit disponible.</p>
+        </div>
       </div>
     </div>
   </div>
-  <p v-else-if="errorMessage">{{ errorMessage }}</p>
-  <p v-else>Chargement des produits...</p>
+
+  <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
+  <p v-else-if="!products.length" class="text-warning">Chargement des produits...</p>
 </template>
 
 <script setup>
@@ -68,7 +92,7 @@ const addToCart = (product) => {
 .product-card {
   cursor: pointer;
   transition:
-    border 0.1s ease,
+    border 0.15s ease,
     transform 0.2s ease;
 }
 

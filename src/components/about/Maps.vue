@@ -1,0 +1,10 @@
+<template>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d631.4026258299639!2d3.3027167244371025!3d50.72716480000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c32524f913e975%3A0xcb66428b4b65e571!2sAu%20ptit%20vivo!5e0!3m2!1sfr!2sbe!4v1743393599784!5m2!1sfr!2sbe"
+    width="80%"
+    height="400"
+    class=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</template>

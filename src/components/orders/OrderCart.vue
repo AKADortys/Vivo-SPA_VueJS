@@ -42,7 +42,7 @@ const confirm = () => {
     </table>
   </div>
   <div v-else>
-    <table class="my-4 p-2 table-dark table table-striped table-hover text-center">
+    <table class="my-2 p-2 table-dark table table-striped table-hover text-center">
       <thead>
         <tr>
           <th>Produit</th>
@@ -64,7 +64,9 @@ const confirm = () => {
         </tr>
       </tbody>
     </table>
-    <p class="text-warning border-bottom text-center mb-2 p-2">Total : {{ panierStore.total }}</p>
+    <p class="text-warning border-bottom text-center mb-2 display-6">
+      Total de la commande : <span class="text-primary">{{ panierStore.total }}€</span>
+    </p>
     <div class="d-flex justify-content-center gap-3">
       <button class="btn btn-danger" @click="viderPanier()">Vider le panier</button>
       <button class="btn btn-success" @click="confirm()">Confirmer la commande</button>

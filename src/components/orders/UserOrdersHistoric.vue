@@ -37,8 +37,9 @@
               <p class="text-center">
                 Total <span class="text-warning">{{ orderItem.totalPrice }} €</span>
               </p>
-              <RouterLink :to="`/order/${orderItem._id}`"></RouterLink>
-              <button class="btn btn-primary">Voir détails</button>
+              <RouterLink :to="`/order/${orderItem._id}`">
+                <button class="btn btn-primary">Voir détails</button>
+              </RouterLink>
             </div>
           </div>
         </section>
