@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import Dexie from 'dexie'
+import VivoBack from '@/services/VivoBack'
 
 // Création de la base de données IndexedDB
 const db = new Dexie('VivoCart')
@@ -58,6 +59,35 @@ export const usePanierStore = defineStore('panier', {
         (total, produit) => total + produit.price * produit.quantity,
         0,
       )
+    },
+    // confirmer une commande
+    async confirmOrder(userId, address = null) {
+      try {
+        const data = {
+          userId: userId,
+          products: [],
+          status: 'En cours de traitement',
+        }
+        // Remplit le tableau `products` avec les données du panier
+        this.produits.forEach((produit) => {
+          data.products.push({
+            productId: produit.id,
+            quantity: produit.quantity,
+            price: produit.price,
+          })
+        })
+
+        if (address) data.deliveryAddress = address
+        // Envoie la commande à l'API
+        const response = await VivoBack.createOrder(data)
+        console.log('Commande confirmée avec succès!')
+        // Vide le panier
+        this.viderPanier()
+        return true
+      } catch (error) {
+        console.error('Erreur lors de la confirmation de la commande:', error)
+        return false
+      }
     },
   },
 })

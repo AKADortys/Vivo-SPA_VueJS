@@ -2,12 +2,14 @@
 import { ref, onMounted, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/userStore'
+import Loader from '@/components/Loader.vue'
 
+const UserStore = useUserStore()
 const VivoBack = inject('VivoBack')
-const currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
 const router = useRouter()
 
-if (!currentUser) {
+if (!UserStore.utilisateur) {
   router.push('/')
 }
 
@@ -20,23 +22,24 @@ const errorMessage = ref('')
 const loading = ref(true)
 
 onMounted(async () => {
+  UserStore.chargerUtilisateur()
   errorMessage.value = ''
-  const data = JSON.parse(sessionStorage.getItem('currentUser'))
-  if (!data) {
+  if (!UserStore.utilisateur) {
     errorMessage.value = 'Veuillez vous connecter pour accéder à cette page.'
     return
   }
   try {
     order.value = await VivoBack.getOrderById(id)
-    user.value = data
-    products.value = JSON.parse(sessionStorage.getItem('products'))
+    user.value = UserStore.utilisateur
+    const response = await VivoBack.getProducts()
+    products.value = response
     loading.value = false
     console.log(products.value, user.value, order.value)
   } catch (error) {
     if (error.message === 'Token invalide ou expiré') {
       errorMessage.value = 'Connexion expirée'
       sessionStorage.removeItem('currentUser')
-      window.location.href('/')
+      router.push('/')
     } else {
       errorMessage.value = 'Une erreur est survenue lors de la récupération de la commande.'
       console.error('Erreur lors de la récupération des commandes :', error)
@@ -108,7 +111,7 @@ const getProductLabel = (productId) => {
   </div>
   <div v-else-if="loading" class="row">
     <div class="col-12 text-center">
-      <p>Chargement en cours...</p>
+      <Loader />
     </div>
   </div>
 </template>

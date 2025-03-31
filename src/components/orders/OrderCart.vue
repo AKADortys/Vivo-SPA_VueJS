@@ -1,12 +1,17 @@
 <script setup>
-import { onMounted, inject } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
+import { useUserStore } from '@/store/userStore'
+import LogPanel from '@/components/auth/LogPanel.vue'
 
+const userStore = useUserStore()
 const panierStore = usePanierStore()
-const VivoBack = inject('VivoBack')
+const address = ref(null)
+
 // Charger le panier depuis Dexie au montage du composant
 onMounted(async () => {
   await panierStore.chargerPanier()
+  await userStore.chargerUtilisateur()
 })
 
 const supprimerProduit = (id) => {
@@ -18,13 +23,18 @@ const viderPanier = () => {
 }
 
 const confirm = () => {
-  const products = panierStore.produits
-  console.log(products)
+  panierStore.confirmOrder(userStore.utilisateur.id, address.value ? address.value : null)
 }
 </script>
 
 <template>
-  <div v-if="!panierStore.produits.length">
+  <div v-if="!userStore.utilisateur" class="bg-dark bg-gradient p-4 mt-2 rounded border">
+    <p class="text-warning text-center mb-3">
+      Pour passer commande, connectez vous ou créez un compte
+    </p>
+    <LogPanel />
+  </div>
+  <div v-else-if="!panierStore.produits.length">
     <table class="my-4 p-2 table-dark table table-striped table-hover text-center">
       <thead>
         <tr>
@@ -66,6 +76,10 @@ const confirm = () => {
     </table>
     <p class="text-warning border-bottom text-center mb-2 display-6">
       Total de la commande : <span class="text-primary">{{ panierStore.total }}€</span>
+    </p>
+    <p class="d-flex gap-3 justify-content-center p-2">
+      <label for="address">Addresse de livraison</label>
+      <input v-model="address" name="address" type="text" />
     </p>
     <div class="d-flex justify-content-center gap-3">
       <button class="btn btn-danger" @click="viderPanier()">Vider le panier</button>

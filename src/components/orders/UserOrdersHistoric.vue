@@ -8,9 +8,7 @@
       <p v-else-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
       <p v-else-if="!order.length" class="text-info">Aucune commande trouvée</p>
       <div v-for="orderItem in order" :key="orderItem._id" class="">
-        <section
-          v-if="orderItem.status !== 'En attente' && orderItem.status !== 'En cours de traitement'"
-        >
+        <section v-if="orderItem.status !== 'En attente'">
           <h4 class="text-primary text-center">
             Commande du
             {{
@@ -22,7 +20,10 @@
             }}
           </h4>
           <p class="text-center mb-2">
-            Livraison <span class="text-warning">{{ orderItem.deliveryAddress }}</span>
+            Livraison
+            <span class="text-warning">{{
+              orderItem.deliveryAddress ? orderItem.deliveryAddress : 'Aucunes'
+            }}</span>
           </p>
           <p class="text-center mb-2">
             Statut <span class="text-warning">{{ orderItem.status }}</span>
