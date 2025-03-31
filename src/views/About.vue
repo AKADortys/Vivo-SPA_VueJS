@@ -1,7 +1,6 @@
 <template>
-  <h1>About</h1>
   <div
-    class="d-flex align-items-center justify-content-around flex-column flex-md-row gap-1 bg-dark bg-gradient"
+    class="d-flex align-items-center justify-content-around flex-column flex-md-row gap-1 bg-dark bg-gradient p-1"
   >
     <Maps />
     <Networks />

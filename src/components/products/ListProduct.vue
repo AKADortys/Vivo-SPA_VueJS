@@ -1,5 +1,5 @@
 <template>
-  <div class="accordion" id="categoryAccordion">
+  <div v-if="products.length" class="accordion" id="categoryAccordion">
     <div v-for="cat in category" :key="cat" class="accordion-item bg-dark text-white">
       <!-- Titre de la catégorie -->
       <h2 class="accordion-header">
@@ -44,12 +44,13 @@
   </div>
 
   <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
-  <p v-else-if="!products.length" class="text-warning">Chargement des produits...</p>
+  <Loader v-else-if="!products.length" />
 </template>
 
 <script setup>
 import { ref, onMounted, computed, inject } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
+import Loader from '@/components/Loader.vue'
 
 const panierStore = usePanierStore()
 const VivoBack = inject('VivoBack')
