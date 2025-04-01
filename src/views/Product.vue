@@ -1,7 +1,9 @@
 <template>
   <h1 class="display-1 mb-4 titre">Nos produits</h1>
-  <ListProducts />
-  <OrderCart />
+  <div class="container">
+    <ListProducts />
+    <OrderCart />
+  </div>
 </template>
 
 <script>

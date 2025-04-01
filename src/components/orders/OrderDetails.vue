@@ -16,7 +16,7 @@ if (!UserStore.utilisateur) {
 const route = useRoute()
 const id = route.params.id
 const user = ref({})
-const order = ref({})
+const order = ref(null)
 const products = ref({})
 const errorMessage = ref('')
 const loading = ref(true)
@@ -34,7 +34,6 @@ onMounted(async () => {
     const response = await VivoBack.getProducts()
     products.value = response
     loading.value = false
-    console.log(products.value, user.value, order.value)
   } catch (error) {
     if (error.message === 'Token invalide ou expiré') {
       errorMessage.value = 'Connexion expirée'

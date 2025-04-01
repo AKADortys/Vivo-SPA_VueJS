@@ -3,6 +3,7 @@ import { ref, onMounted, inject } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
 import { useUserStore } from '@/store/userStore'
 import LogPanel from '@/components/auth/LogPanel.vue'
+import infoOrder from '@/components/about/infoOrder.vue'
 
 const userStore = useUserStore()
 const panierStore = usePanierStore()
@@ -28,13 +29,14 @@ const confirm = () => {
 </script>
 
 <template>
-  <div v-if="!userStore.utilisateur" class="bg-dark bg-gradient p-4 mt-2 rounded border">
+  <div v-if="!userStore.utilisateur" class="bg-dark bg-gradient p-4 mt-4 rounded border">
     <p class="text-warning text-center mb-3">
       Pour passer commande, connectez vous ou créez un compte
     </p>
     <LogPanel />
   </div>
   <div v-else-if="!panierStore.produits.length">
+    <h2 class="text-center display-5">Mon panier</h2>
     <table class="my-4 p-2 table-dark table table-striped table-hover text-center">
       <thead>
         <tr>
@@ -74,6 +76,7 @@ const confirm = () => {
         </tr>
       </tbody>
     </table>
+    <infoOrder />
     <p class="text-warning border-bottom text-center mb-2 display-6">
       Total de la commande : <span class="text-primary">{{ panierStore.total }}€</span>
     </p>

@@ -1,9 +1,9 @@
 <template>
   <h1 class="display-1 mb-4 titre">Tableau de bord</h1>
-  <div class="d-flex flex-wrap align-items-center">
+  <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 container">
     <UserPanel />
-    <UserOrdersHistoric />
     <OrderCart />
+    <UserOrdersHistoric />
   </div>
 </template>
 <script>

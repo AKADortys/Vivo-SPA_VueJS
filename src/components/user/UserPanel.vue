@@ -1,22 +1,22 @@
 <template>
-  <div class="col-12 col-md-4 d-flex flex-wrap justify-content-center mb-2">
+  <div class="col-12 d-flex flex-wrap justify-content-center mb-2">
     <div
       v-if="connected"
       class="w-75 text-white p-2 border border-warning shadow-lg bg-dark bg-gradient rounded"
     >
-      <div class="d-block mt-2">
+      <div class="text-center mt-2">
         <p>Nom</p>
         <span>{{ user.name + ' ' + user.lastName }}</span>
       </div>
-      <div class="d-block mt-2">
+      <div class="text-center mt-2">
         <p>Email</p>
         <span>{{ user.mail }}</span>
       </div>
-      <div class="d-block mt-2">
+      <div class="text-center mt-2">
         <p>Téléphone</p>
         <span>{{ user.phone }}</span>
       </div>
-      <div class="d-block mt-2">
+      <div class="text-center mt-2">
         <p>Date D'inscription</p>
         <span>{{
           new Date(user.createdAt).toLocaleDateString('fr-FR', {
@@ -26,7 +26,7 @@
           })
         }}</span>
       </div>
-      <div class="d-block mt-2">
+      <div class="text-center mt-2">
         <button class="btn btn-warning" @click="openModal">Modifier</button>
       </div>
       <Modal ref="updateUserModal">

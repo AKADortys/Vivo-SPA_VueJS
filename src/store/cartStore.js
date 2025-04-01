@@ -80,7 +80,6 @@ export const usePanierStore = defineStore('panier', {
         if (address) data.deliveryAddress = address
         // Envoie la commande à l'API
         const response = await VivoBack.createOrder(data)
-        console.log('Commande confirmée avec succès!')
         // Vide le panier
         this.viderPanier()
         return true

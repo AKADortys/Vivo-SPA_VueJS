@@ -1,8 +1,8 @@
 <template>
   <div
-    class="col-12 col-md-8 p-2 bg-dark bg-gradient rounded border border-warning text-white shadow-lg d-flex flex-wrap justify-content-center align-items-center overflow-auto mainContent"
+    class="col-12 p-2 bg-dark bg-gradient rounded border border-warning text-white shadow-lg justify-content-center align-items-center overflow-auto mainContent"
   >
-    <h3 class="w-75 text-center mb-4">Historique des commandes</h3>
+    <h3 class="w-100 text-center mb-4 display-4">Historique des commandes</h3>
     <div>
       <p v-if="loading">Chargement...</p>
       <p v-else-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
@@ -88,6 +88,6 @@ onMounted(async () => {
 
 <style>
 .mainContent {
-  max-height: 400px;
+  max-height: 600px;
 }
 </style>
