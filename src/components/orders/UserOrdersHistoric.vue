@@ -82,6 +82,7 @@ onMounted(async () => {
     }
   } finally {
     loading.value = false
+    console.log(user.value.id)
   }
 })
 </script>

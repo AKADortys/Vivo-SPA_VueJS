@@ -37,7 +37,8 @@ const validateForm = () => {
       .then((response) => {
         if (!response) {
           console.error('Authentication failed')
-          errors.value.general = "L'authentication a échoué "
+          errors.value.general = "L'authentication a échoué, vérifiez vos informations "
+          return
         }
         form.value = {}
         //prévoir alert SweetAlert

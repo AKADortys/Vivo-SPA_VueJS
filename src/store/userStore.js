@@ -108,6 +108,7 @@ export const useUserStore = defineStore('user', {
     // Déconnexion de l'utilisateur
     async logout() {
       try {
+        await VivoBack.logout()
         this.utilisateur = null
         await db.utilisateurs.clear()
       } catch (error) {
