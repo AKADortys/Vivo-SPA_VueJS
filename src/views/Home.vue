@@ -1,13 +1,14 @@
 <template>
-  <h1>Home</h1>
+  <h1 class="titre display-1">Au P'tit Vivo</h1>
+  <Carousel />
 </template>
 
 <script>
-import ListProducts from '@/components/products/ListProduct.vue'
+import Carousel from '@/components/home/Carousel.vue'
 
 export default {
   components: {
-    ListProducts,
+    Carousel,
   },
 }
 </script>
