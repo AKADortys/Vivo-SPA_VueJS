@@ -104,4 +104,4 @@ class VivoBack {
   }
 }
 
-export default new VivoBack(import.meta.env.VITE_BACK_URI) //"https://tfm-sgbd-ancelt.onrender.com" || "http://localhost:3300
+export default new VivoBack(import.meta.env.VITE_BACK_URI || 'https://tfm-sgbd-ancelt.onrender.com') //"https://tfm-sgbd-ancelt.onrender.com" || "http://localhost:3300
