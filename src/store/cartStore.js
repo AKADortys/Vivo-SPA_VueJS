@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import Dexie from 'dexie'
 import VivoBack from '@/services/VivoBack'
 
-// Création de la base de données IndexedDB
+// Création de la base de données
 const db = new Dexie('VivoCart')
 db.version(1).stores({
   panier: 'id, label, price, quantity',
