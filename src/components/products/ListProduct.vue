@@ -1,14 +1,14 @@
 <template>
-  <div v-if="products.length" class="accordion" id="categoryAccordion">
-    <div v-for="cat in category" :key="cat" class="accordion-item bg-dark text-white">
+  <div v-if="products.length" class="accordion w-100" id="categoryAccordion">
+    <div v-for="(cat, index) in category" :key="cat" class="accordion-item bg-dark text-white">
       <!-- Titre de la catégorie -->
       <h2 class="accordion-header">
         <button
-          class="accordion-button text-warning bg-dark collapsed"
+          class="accordion-button text-warning bg-dark"
           type="button"
           data-bs-toggle="collapse"
           :data-bs-target="'#collapse-' + cat.replace(/\s+/g, '')"
-          aria-expanded="false"
+          :aria-expanded="index === 0 ? 'true' : 'false'"
           :aria-controls="'collapse-' + cat.replace(/\s+/g, '')"
         >
           {{ cat }}
@@ -19,6 +19,7 @@
       <div
         :id="'collapse-' + cat.replace(/\s+/g, '')"
         class="accordion-collapse collapse"
+        :class="{ show: index === 0 }"
         data-bs-parent="#categoryAccordion"
       >
         <div class="accordion-body">

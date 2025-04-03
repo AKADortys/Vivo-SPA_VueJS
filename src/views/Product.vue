@@ -1,6 +1,6 @@
 <template>
   <h1 class="display-1 mb-4 titre">Nos produits</h1>
-  <div class="container">
+  <div class="p-4 d-flex flex-wrap justify-content-center container">
     <ListProducts />
     <OrderCart />
   </div>

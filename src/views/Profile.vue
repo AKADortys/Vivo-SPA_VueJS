@@ -1,9 +1,11 @@
 <template>
   <h1 class="display-1 mb-4 titre">Tableau de bord</h1>
-  <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 container">
-    <UserPanel />
-    <OrderCart />
-    <UserOrdersHistoric />
+  <div class="container">
+    <div class="row align-items-center flex-column justify-content-around flex-md-row my-4">
+      <UserPanel />
+      <OrderCart />
+      <UserOrdersHistoric />
+    </div>
   </div>
 </template>
 <script>

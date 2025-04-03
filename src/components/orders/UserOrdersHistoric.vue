@@ -1,10 +1,10 @@
 <template>
   <div
-    class="col-12 p-2 bg-dark bg-gradient rounded border border-warning text-white shadow-lg justify-content-center align-items-center overflow-auto mainContent"
+    class="col-12 col-md-10 col-lg-8 p-2 bg-dark bg-gradient rounded border border-warning shadow-lg justify-content-center align-items-center overflow-auto mainContent"
   >
     <h3 class="w-100 text-center mb-4 display-4">Historique des commandes</h3>
     <div>
-      <p v-if="loading">Chargement...</p>
+      <Loader v-if="loading" />
       <p v-else-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
       <p v-else-if="!order.length" class="text-info">Aucune commande trouvée</p>
       <div v-for="orderItem in order" :key="orderItem._id" class="">
@@ -52,6 +52,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/userStore'
+import Loader from '@/components/Loader.vue'
 
 // Récupération du store User
 const userStore = useUserStore()
@@ -82,13 +83,12 @@ onMounted(async () => {
     }
   } finally {
     loading.value = false
-    console.log(user.value.id)
   }
 })
 </script>
 
 <style>
 .mainContent {
-  max-height: 600px;
+  max-height: 800px;
 }
 </style>
