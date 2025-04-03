@@ -32,9 +32,9 @@
               class="card bg-secondary bg-gradient p-2 col-12 col-md-5 text-center pe-auto user-select-none product-card"
               @click="addToCart(product)"
             >
-              <h3 class="text-white">{{ product.label }}</h3>
-              <p class="text-warning">{{ product.description }}</p>
-              <p class="text-warning">Prix : {{ product.price }} €</p>
+              <h3 class="text-white display-6">{{ product.label }}</h3>
+              <p class="text-warning mb-2">{{ product.description }}</p>
+              <p class="text-info mb-2">Prix : {{ product.price }} €</p>
             </div>
           </div>
           <p v-else class="text-center text-warning">Aucun produit disponible.</p>

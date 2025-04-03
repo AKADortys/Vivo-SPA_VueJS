@@ -1,5 +1,4 @@
 <template>
-  <h1 class="titre display-1">Au P'tit Vivo</h1>
   <Carousel />
 </template>
 

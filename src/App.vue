@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <main class="p-2 bg-secondary">
+  <main>
     <router-view />
   </main>
   <Footer />
@@ -21,15 +21,12 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Love+Light&display=swap');
 
-main {
-  background-image: url('/food3.jpg');
-  background-size: cover;
-}
-
 .titre {
   font-family: 'Love Light', cursive;
   text-align: center;
   margin-top: 0.5em;
-  color: white;
+}
+main {
+  min-height: 100%;
 }
 </style>

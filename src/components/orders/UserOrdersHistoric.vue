@@ -69,7 +69,7 @@ onMounted(async () => {
 
     if (user.value) {
       const response = await userStore.getOrders(user.value.id)
-      order.value = Array.isArray(response) ? response : []
+      order.value = Array.isArray(response) ? response.reverse() : []
     } else {
       errorMessage.value = 'Utilisateur non connecté'
     }

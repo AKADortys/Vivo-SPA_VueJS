@@ -48,9 +48,9 @@
       </li>
     </ul>
 
-    <p class="text-center mb-2">
+    <p class="text-center my-2">
       Pour toute question ou demande de devis, appelez le : <br />
-      <strong class="text-warning mb-4">056 58 84 82</strong>
+      <strong class="text-warning mb-4 display-1">056 58 84 82</strong>
     </p>
   </div>
 </template>

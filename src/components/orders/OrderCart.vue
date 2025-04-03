@@ -29,14 +29,15 @@ const confirm = () => {
 </script>
 
 <template>
-  <div v-if="!userStore.utilisateur" class="bg-dark bg-gradient p-4 mt-4 rounded border">
-    <p class="text-warning text-center mb-3">
+  <div v-if="!userStore.utilisateur" class="bg-dark bg-gradient p-4 my-4 rounded border">
+    <p class="text-danger text-center my-4">Vous n'êtes pas connecté(e) !</p>
+    <p class="text-warning text-center my-4">
       Pour passer commande, connectez vous ou créez un compte
     </p>
     <LogPanel />
   </div>
   <div v-else-if="!panierStore.produits.length">
-    <h2 class="text-center display-5 titre">Mon panier</h2>
+    <h2 class="text-center display-5 titre my-4">Mon panier</h2>
     <table class="my-4 p-2 table-dark table table-striped table-hover text-center">
       <thead>
         <tr>
@@ -48,7 +49,7 @@ const confirm = () => {
       </thead>
       <tbody>
         <tr>
-          <td colspan="4" class="text-center">Aucun produit dans le panier</td>
+          <td colspan="4" class="text-center p-4">Aucun produit dans le panier</td>
         </tr>
       </tbody>
     </table>
@@ -88,7 +89,7 @@ const confirm = () => {
       <label for="address">Addresse de livraison</label>
       <input v-model="address" name="address" type="text" />
     </p>
-    <div class="d-flex justify-content-center gap-3">
+    <div class="d-flex justify-content-center gap-3 mb-4">
       <button class="btn btn-danger" @click="viderPanier()">Vider le panier</button>
       <button class="btn btn-success" @click="confirm()">Confirmer la commande</button>
     </div>
