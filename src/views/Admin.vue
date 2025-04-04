@@ -1,0 +1,1 @@
+<template>Admin panel</template>

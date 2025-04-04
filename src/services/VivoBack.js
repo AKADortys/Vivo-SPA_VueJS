@@ -26,11 +26,11 @@ class VivoBack {
       }
       const response = await this.api(options)
 
-      if (response.request.fromCache) {
-        console.log('✅ Données chargées depuis le cache')
-      } else {
-        console.log("🔄 Données récupérées depuis l'API")
-      }
+      // if (response.request.fromCache) {
+      //   console.log('✅ Données chargées depuis le cache')
+      // } else {
+      //   console.log("🔄 Données récupérées depuis l'API")
+      // }
 
       return response.data
     } catch (error) {
@@ -75,7 +75,7 @@ class VivoBack {
 
   createOrder(orderData) {
     return this.request('post', '/orders', orderData)
-  }
+  } //
 
   updateOrder(orderId, updateData) {
     return this.request('put', `/orders/${orderId}`, updateData)

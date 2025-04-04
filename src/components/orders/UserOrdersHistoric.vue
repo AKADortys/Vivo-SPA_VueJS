@@ -90,5 +90,6 @@ onMounted(async () => {
 <style>
 .mainContent {
   max-height: 800px;
+  color: aliceblue;
 }
 </style>
