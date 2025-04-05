@@ -26,7 +26,9 @@ export default {
   text-align: center;
   margin-top: 0.5em;
 }
-main {
+body {
   min-height: 100%;
+  background-image: url('/brown-wooden-textured-flooring-background.jpg');
+  background-size: cover;
 }
 </style>
