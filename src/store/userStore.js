@@ -3,7 +3,7 @@ import Dexie from 'dexie'
 import VivoBack from '@/services/VivoBack'
 
 // Durée de validité des données
-const TTL_HOURS = 1
+const TTL_HOURS = 168
 const TTL_MS = TTL_HOURS * 60 * 60 * 1000
 
 // Création de la base IndexedDB
@@ -138,9 +138,9 @@ export const useUserStore = defineStore('user', {
       }
     },
     // getuser orders
-    async getOrders(idUser) {
+    async getOrders(idUser, page, limit) {
       try {
-        const response = await VivoBack.getUserOrders(idUser)
+        const response = await VivoBack.getUserOrders(idUser, page, limit)
         return response
       } catch (error) {
         console.error('Error getting orders:', error)

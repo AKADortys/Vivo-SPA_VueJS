@@ -45,6 +45,13 @@
           </div>
         </section>
       </div>
+      <button
+        v-if="page < totalPages && !loading"
+        @click="loadMore"
+        class="btn btn-outline-warning d-block mx-auto mt-3"
+      >
+        Charger plus de commandes
+      </button>
     </div>
   </div>
 </template>
@@ -61,16 +68,23 @@ const user = ref(null)
 const order = ref([])
 const errorMessage = ref('')
 const loading = ref(true)
+const page = ref(1)
+const totalPages = ref(1)
 
 onMounted(async () => {
   loading.value = true
+  await getOrders()
+})
+const getOrders = async () => {
   try {
     await userStore.chargerUtilisateur()
     user.value = userStore.utilisateur
 
     if (user.value) {
-      const response = await userStore.getOrders(user.value.id)
-      order.value = Array.isArray(response) ? response.reverse() : []
+      const response = await userStore.getOrders(user.value.id, page.value)
+      const data = Array.isArray(response.data) ? response.data.reverse() : []
+      order.value.push(...data)
+      totalPages.value = response.totalPages
     } else {
       errorMessage.value = 'Utilisateur non connecté'
     }
@@ -84,7 +98,11 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
-})
+}
+const loadMore = async () => {
+  page.value++
+  await getOrders()
+}
 </script>
 
 <style>

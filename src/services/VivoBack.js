@@ -3,7 +3,7 @@ import { setupCache } from 'axios-cache-adapter'
 
 // Création d'un cache avec une durée de vie de 3 minutes
 const cache = setupCache({
-  maxAge: 3 * 60 * 1000,
+  maxAge: 1 * 60 * 1000,
   exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
 })
 
@@ -61,12 +61,12 @@ class VivoBack {
   } //
 
   // Gestion des commandes
-  getOrders() {
-    return this.request('get', '/orders')
+  getOrders(page, limit) {
+    return this.request('get', `orders?page=${page ?? 1}&limit=${limit ?? 10}`)
   }
 
-  getUserOrders(userId) {
-    return this.request('get', `/orders/user/${userId}`)
+  getUserOrders(userId, page, limit) {
+    return this.request('get', `/orders/user/${userId}?page=${page ?? 1}&limit=${limit ?? 10}`)
   } //
 
   getOrderById(orderId) {
