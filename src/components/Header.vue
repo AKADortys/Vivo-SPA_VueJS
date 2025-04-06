@@ -16,29 +16,20 @@
           </li>
           <li>
             <RouterLink
-              to="/about"
-              class="nav-link px-2 text-white"
-              active-class="active text-light"
-            >
-              Informations
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink
-              to="/contact"
-              class="nav-link px-2 text-white"
-              active-class="active text-light"
-            >
-              Contact
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink
               to="/produits"
               class="nav-link px-2 text-white"
               active-class="active text-light"
             >
               Produits
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              to="/about"
+              class="nav-link px-2 text-white"
+              active-class="active text-light"
+            >
+              Informations
             </RouterLink>
           </li>
         </ul>

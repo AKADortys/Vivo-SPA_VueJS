@@ -1,8 +1,6 @@
 <template>
   <Header />
-  <main>
-    <router-view />
-  </main>
+  <router-view />
   <Footer />
 </template>
 
@@ -25,6 +23,7 @@ export default {
   font-family: 'Love Light', cursive;
   text-align: center;
   margin-top: 0.5em;
+  color: white;
 }
 body {
   min-height: 100%;

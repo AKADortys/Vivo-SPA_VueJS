@@ -37,7 +37,7 @@ const confirm = () => {
     <LogPanel />
   </div>
   <div class="col-12 col-md-10" v-else-if="!panierStore.produits.length">
-    <h2 class="text-center display-5 titre my-4">Mon panier</h2>
+    <h1 class="text-center display-1 titre my-4">Mon panier</h1>
     <table class="my-4 p-2 table-dark table table-striped table-hover text-center">
       <thead>
         <tr>
