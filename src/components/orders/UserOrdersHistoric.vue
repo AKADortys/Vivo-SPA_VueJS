@@ -7,7 +7,7 @@
       <Loader v-if="loading" />
       <p v-else-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
       <p v-else-if="!order.length" class="text-info">Aucune commande trouvée</p>
-      <div v-for="orderItem in order" :key="orderItem._id" class="">
+      <div v-for="orderItem in order" :key="orderItem._id">
         <section v-if="orderItem.status !== 'En attente'">
           <h4 class="text-primary text-center">
             Commande du
@@ -84,6 +84,7 @@ const getOrders = async () => {
       const response = await userStore.getOrders(user.value.id, page.value)
       const data = Array.isArray(response.data) ? response.data.reverse() : []
       order.value.push(...data)
+      order.value.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       totalPages.value = response.totalPages
     } else {
       errorMessage.value = 'Utilisateur non connecté'
