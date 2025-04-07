@@ -4,10 +4,6 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import OrderDetails from '@/components/orders/OrderDetails.vue'
-
-export default {
-  components: { OrderDetails },
-}
 </script>

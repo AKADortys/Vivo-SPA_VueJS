@@ -1,9 +1,3 @@
-# Vivo-SPA
-
-Parfait ! Voici une version du descriptif adaptée pour un `README.md` de ton projet GitHub, avec les sections classiques qu’on attend généralement :
-
----
-
 # 🧑‍🍳 Application SPA - Service Traiteur (Frontend Vue.js)
 
 Ce projet est une **application frontend SPA (Single Page Application)** développée avec **Vue.js**, pensée pour un service traiteur. L'application communique avec une API backend personnalisée, disponible ici : [TFM_SGBD-AncelT](https://github.com/AKADortys/TFM_SGBD-AncelT).

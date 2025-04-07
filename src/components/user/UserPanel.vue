@@ -1,8 +1,9 @@
 <template>
   <div
     v-if="connected"
-    class="text-white p-2 border border-warning shadow-lg bg-dark bg-gradient rounded col-12 col-md-4"
+    class="text-white p-2 border shadow-lg bg-dark bg-gradient rounded col-12 col-md-6 col-lg-3"
   >
+    <h4 class="text-center display-6">Mes informations</h4>
     <div class="text-center mt-2">
       <p>Nom</p>
       <span>{{ user.name + ' ' + user.lastName }}</span>

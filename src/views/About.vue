@@ -7,16 +7,8 @@
   </div>
   <InfoEvent />
 </template>
-<script>
+<script setup>
 import Maps from '@/components/about/Maps.vue'
 import Networks from '@/components/about/Networks.vue'
 import InfoEvent from '@/components/about/InfoEvent.vue'
-
-export default {
-  components: {
-    Maps,
-    Networks,
-    InfoEvent,
-  },
-}
 </script>
