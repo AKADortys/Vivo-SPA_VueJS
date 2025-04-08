@@ -41,6 +41,9 @@ class VivoBack {
   }
 
   // Authentification
+  getUsers(page, limit) {
+    return this.request('get', `/users?page=${page ?? 1}&limit=${limit ?? 10}`)
+  }
   login(authData) {
     return this.request('post', '/auth/login', authData)
   } //

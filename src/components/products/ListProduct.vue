@@ -44,7 +44,9 @@
     </div>
   </div>
 
-  <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
+  <p v-if="errorMessage" class="text-danger text-center w-100 alert alert-danger">
+    {{ errorMessage }}
+  </p>
   <Loader v-else-if="!products.length" />
 </template>
 
@@ -66,7 +68,7 @@ onMounted(async () => {
     products.value = response
   } catch (error) {
     console.error('Erreur lors du chargement des produits:', error)
-    errorMessage.value = error.response?.data?.message || 'Une erreur réseau est survenue'
+    errorMessage.value = error.message || 'Une erreur réseau est survenue'
   }
 })
 

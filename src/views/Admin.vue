@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex flex-column flex-md-row">
-    <aside class="col-12 col-md-4">
+  <div class="d-flex flex-column">
+    <aside class="col-12">
       <ul>
         <li
           v-for="item in menuItems"
@@ -20,17 +20,17 @@
       </ul>
     </aside>
 
-    <main class="col-12 col-md-8 text-white p-0">
-      <section class="container" v-if="selected === 'Commandes'">
+    <main class="col-12 text-white">
+      <section v-if="selected === 'Commandes'">
         <h1>Liste des Commandes</h1>
       </section>
 
-      <section class="container" v-else-if="selected === 'Produits'">
+      <section v-else-if="selected === 'Produits'">
         <h1>Liste des Produits</h1>
       </section>
 
-      <section class="container" v-else-if="selected === 'Utilisateurs'">
-        <h1>Liste des Utilisateurs</h1>
+      <section class="" v-else-if="selected === 'Utilisateurs'">
+        <UsersList />
       </section>
     </main>
   </div>
@@ -38,6 +38,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import UsersList from '@/components/admin/users/UsersList.vue'
 
 const menuItems = ['Commandes', 'Produits', 'Utilisateurs']
 const selected = ref('Commandes') // valeur par déf
@@ -56,10 +57,6 @@ aside > ul > li {
     transform 0.2s ease-in,
     background-color 0.5s ease-in-out;
   cursor: pointer;
-}
-
-aside > ul > li:hover {
-  transform: scale(1.1);
 }
 
 .active {

@@ -1,13 +1,13 @@
 <template>
   <h3 class="w-100 text-center mb-4 display-4 text-white">Historique des commandes</h3>
-  <p class="text-center text-white mb-4">{{ total }} commande(s)</p>
+  <p v-if="total" class="text-center text-white mb-4">{{ total }} commande(s)</p>
   <div
     class="col-12 col-md-10 col-lg-8 mx-auto my-4 p-1 bg-dark bg-gradient rounded border shadow-lg justify-content-center align-items-center overflow-auto mainContent"
   >
     <div>
       <Loader v-if="loading" />
-      <p v-else-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
-      <p v-else-if="!order.length" class="text-info">Aucune commande trouvée</p>
+      <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
+      <p v-else-if="!order.length" class="text-info text-center p-4">Aucune commande trouvée</p>
       <div v-for="orderItem in order" :key="orderItem._id">
         <section v-if="orderItem.status !== 'En attente'">
           <h4 class="text-primary text-center">
@@ -68,7 +68,7 @@ const userStore = useUserStore()
 
 const user = ref(null)
 const order = ref([])
-const errorMessage = ref('')
+const errorMessage = ref(null)
 const loading = ref(true)
 const page = ref(1)
 const totalPages = ref(1)
@@ -84,7 +84,7 @@ const getOrders = async () => {
   try {
     if (user.value) {
       const response = await userStore.getOrders(user.value.id, page.value)
-      const data = Array.isArray(response.data) ? response.data.reverse() : []
+      const data = Array.isArray(response.data) ? response.data : []
       order.value.push(...data)
       order.value.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       totalPages.value = response.totalPages
@@ -93,12 +93,7 @@ const getOrders = async () => {
       errorMessage.value = 'Utilisateur non connecté'
     }
   } catch (error) {
-    if (error.message === 'Token invalide ou expiré') {
-      errorMessage.value = 'Connexion expirée'
-    } else {
-      errorMessage.value = 'Une erreur est survenue lors de la récupération des commandes.'
-      console.error('Erreur lors de la récupération des commandes :', error)
-    }
+    errorMessage.value = response
   } finally {
     loading.value = false
   }
