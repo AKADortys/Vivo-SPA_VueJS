@@ -1,8 +1,9 @@
 <template>
+  <h3 class="w-100 text-center mb-4 display-4 text-white">Historique des commandes</h3>
+  <p class="text-center text-white mb-4">{{ total }} commande(s)</p>
   <div
-    class="col-12 col-md-10 col-lg-8 p-1 bg-dark bg-gradient rounded border shadow-lg justify-content-center align-items-center overflow-auto mainContent"
+    class="col-12 col-md-10 col-lg-8 mx-auto my-4 p-1 bg-dark bg-gradient rounded border shadow-lg justify-content-center align-items-center overflow-auto mainContent"
   >
-    <h3 class="w-100 text-center mb-4 display-4">Historique des commandes</h3>
     <div>
       <Loader v-if="loading" />
       <p v-else-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
@@ -50,7 +51,8 @@
         @click="loadMore"
         class="btn btn-outline-warning d-block mx-auto mt-3"
       >
-        Charger plus de commandes
+        Charger plus de commandes <br />
+        Pages {{ page }} sur {{ totalPages }}
       </button>
     </div>
   </div>
@@ -70,22 +72,23 @@ const errorMessage = ref('')
 const loading = ref(true)
 const page = ref(1)
 const totalPages = ref(1)
+const total = ref(0)
 
 onMounted(async () => {
   loading.value = true
+  await userStore.chargerUtilisateur()
+  user.value = userStore.utilisateur
   await getOrders()
 })
 const getOrders = async () => {
   try {
-    await userStore.chargerUtilisateur()
-    user.value = userStore.utilisateur
-
     if (user.value) {
       const response = await userStore.getOrders(user.value.id, page.value)
       const data = Array.isArray(response.data) ? response.data.reverse() : []
       order.value.push(...data)
       order.value.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       totalPages.value = response.totalPages
+      total.value = response.total
     } else {
       errorMessage.value = 'Utilisateur non connecté'
     }
@@ -108,7 +111,7 @@ const loadMore = async () => {
 
 <style scoped>
 .mainContent {
-  max-height: 800px;
+  max-height: 600px;
   color: aliceblue;
 }
 </style>

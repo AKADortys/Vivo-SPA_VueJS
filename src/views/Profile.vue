@@ -3,8 +3,8 @@
   <div class="container">
     <div class="row align-items-center flex-column justify-content-between flex-md-row my-4">
       <UserPanel />
-      <UserOrdersHistoric />
       <OrderCart />
+      <UserOrdersHistoric />
     </div>
   </div>
 </template>

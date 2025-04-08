@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { setupCache } from 'axios-cache-adapter'
 
-// Création d'un cache avec une durée de vie de 3 minutes
+// Création d'un cache avec une durée de vie de 1 minutes
 const cache = setupCache({
   maxAge: 1 * 60 * 1000,
   exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
@@ -11,9 +11,9 @@ class VivoBack {
   constructor(baseURL) {
     this.api = axios.create({
       baseURL,
-      withCredentials: true, // Important pour envoyer le cookie d'authentification
+      withCredentials: true,
       headers: { 'Content-Type': 'application/json' },
-      adapter: cache.adapter, // Utilisation du cache
+      adapter: cache.adapter,
     })
   }
 

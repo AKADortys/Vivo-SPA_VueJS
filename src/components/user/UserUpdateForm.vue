@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 import { z } from 'zod'
 import { useUserStore } from '@/store/userStore'
 
+const emit = defineEmits(['user-updated'])
+
 const userStore = useUserStore()
 
 const currentUser = ref(null)
@@ -64,7 +66,7 @@ const updateUser = async () => {
         await userStore.chargerUtilisateur()
         currentUser.value = userStore.utilisateur
         alert('Mise à jour réussie !')
-        location.reload()
+        emit('user-updated')
       } else {
         alert("Erreur lors de la mise à jour de l'utilisateur.")
       }

@@ -30,7 +30,7 @@
       <button class="btn btn-warning" @click="openModal">Modifier</button>
     </div>
     <Modal ref="updateUserModal">
-      <UserUpdateForm />
+      <UserUpdateForm @user-updated="refresh" />
     </Modal>
   </div>
   <div
@@ -71,6 +71,12 @@ onMounted(async () => {
     errorMessage.value = 'Une erreur est survenue : ' + error.message
   }
 })
+
+const refresh = async () => {
+  await userStore.chargerUtilisateur()
+  user.value = userStore.utilisateur
+  updateUserModal.value?.closeModal()
+}
 </script>
 
 <style>

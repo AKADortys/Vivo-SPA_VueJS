@@ -36,7 +36,7 @@ const confirm = () => {
     </p>
     <LogPanel />
   </div>
-  <div class="col-12 col-md-10" v-else-if="!panierStore.produits.length">
+  <div class="col-12 col-md-10 col-lg-8" v-else-if="!panierStore.produits.length">
     <h1 class="text-center display-1 titre my-4">Mon panier</h1>
     <table class="my-4 p-2 table-dark table table-striped table-hover text-center">
       <thead>
@@ -54,7 +54,7 @@ const confirm = () => {
       </tbody>
     </table>
   </div>
-  <div class="col-12 col-md-10" v-else>
+  <div class="col-12 col-md-10 col-lg-8" v-else>
     <h2 class="text-center display-5 titre">Mon panier</h2>
 
     <table class="my-2 p-2 table-dark table table-striped table-hover text-center">
@@ -86,7 +86,7 @@ const confirm = () => {
       Total de la commande : <span class="text-primary">{{ panierStore.total }}€</span>
     </p>
     <p class="d-flex gap-3 justify-content-center p-2">
-      <label for="address">Addresse de livraison</label>
+      <label for="address" class="text-white">Addresse de livraison</label>
       <input v-model="address" id="address" name="address" type="text" />
     </p>
     <div class="d-flex justify-content-center gap-3 mb-4">

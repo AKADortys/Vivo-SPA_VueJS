@@ -3,8 +3,9 @@ import { ref } from 'vue'
 import { z } from 'zod'
 import { useUserStore } from '@/store/userStore'
 
-// Récupération du store User
+const emit = defineEmits(['user-register'])
 
+// Récupération du store User
 const userStore = useUserStore()
 
 // Définition du schéma de validation avec Zod
@@ -59,7 +60,7 @@ const validateForm = async () => {
           alert('Inscription réussie!')
           // Reinitialiser le formulaire
           form.value = {}
-          location.reload()
+          emit('user-register')
         }
       })
       .catch((error) => {

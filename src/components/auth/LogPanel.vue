@@ -19,11 +19,11 @@
 
   <!-- Modals -->
   <Modal ref="registerModal">
-    <RegisterForm />
+    <RegisterForm @user-register="registerModal.closeModal" />
   </Modal>
 
   <Modal ref="loginModal">
-    <LoginForm />
+    <LoginForm @user-auth="refresh" />
   </Modal>
 </template>
 
@@ -68,5 +68,9 @@ const logout = async () => {
   } catch (error) {
     console.error('Logout failed:', error)
   }
+}
+const refresh = () => {
+  connected.value = true
+  loginModal.value?.closeModal()
 }
 </script>

@@ -60,9 +60,6 @@ export const useUserStore = defineStore('user', {
             expiresAt: expiration, // Ajout du TTL
           }
           await db.utilisateurs.clear()
-          await db.utilisateurs.add(user)
-
-          this.utilisateur = user
           return true
         } else {
           console.error('Erreur: _id manquant dans la réponse.')
