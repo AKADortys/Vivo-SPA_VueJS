@@ -9,7 +9,7 @@
       <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
       <p v-else-if="!order.length" class="text-info text-center p-4">Aucune commande trouvée</p>
       <div v-for="orderItem in order" :key="orderItem._id">
-        <section v-if="orderItem.status !== 'En attente'">
+        <section>
           <h4 class="text-primary text-center">
             Commande du
             {{
