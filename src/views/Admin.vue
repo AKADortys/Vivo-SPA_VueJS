@@ -22,7 +22,7 @@
 
     <main class="col-12 text-white">
       <section v-if="selected === 'Commandes'">
-        <h1>Liste des Commandes</h1>
+        <OrderPreview />
       </section>
 
       <section v-else-if="selected === 'Produits'">
@@ -39,6 +39,7 @@
 <script setup>
 import { ref } from 'vue'
 import UsersList from '@/components/admin/users/UsersList.vue'
+import OrderPreview from '@/components/admin/orders/OrderPreview.vue'
 
 const menuItems = ['Commandes', 'Produits', 'Utilisateurs']
 const selected = ref('Commandes') // valeur par déf

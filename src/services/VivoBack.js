@@ -43,7 +43,7 @@ class VivoBack {
   // Authentification
   getUsers(page, limit) {
     return this.request('get', `/users?page=${page ?? 1}&limit=${limit ?? 10}`)
-  }
+  } //
   login(authData) {
     return this.request('post', '/auth/login', authData)
   } //
@@ -66,6 +66,10 @@ class VivoBack {
   // Gestion des commandes
   getOrders(page, limit) {
     return this.request('get', `orders?page=${page ?? 1}&limit=${limit ?? 10}`)
+  }
+
+  getOrdersByStatus(status, page, limit) {
+    return this.request('get', `orders/status/${status}?page=${page ?? 1}&limit=${limit ?? 10}`)
   }
 
   getUserOrders(userId, page, limit) {

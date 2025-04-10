@@ -1,29 +1,34 @@
 <template>
-  <!--Chargement-->
-  <Loader v-if="isLoading" />
-
-  <!--Erreur server-->
-  <p class="alert alert-danger text-center" v-else-if="errorMessage">
-    {{ errorMessage }}
-  </p>
-
-  <!--tableau vide-->
-  <div class="bg-dark bg-gradient border border-warning rounded" v-else-if="!users.length">
-    <p class="alert alert-info text-center">Aucuns Utilisateurs</p>
-  </div>
-
-  <!-- filtres-->
-  <div class="p-2 my-2 bg-secondary bg-gradient col-12" v-else>
+  <div class="p-2 my-2 bg-secondary bg-gradient col-12">
     <h1 class="titre display-2">Liste utilisateur</h1>
-    <div class="mb-2 p-4 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark rounded">
+    <!--Chargement-->
+    <Loader v-if="isLoading" />
+
+    <!--Erreur server-->
+    <p class="alert alert-danger text-center" v-else-if="errorMessage">
+      {{ errorMessage }}
+    </p>
+
+    <!--tableau vide-->
+    <div class="bg-dark bg-gradient border border-warning rounded" v-else-if="!users.length">
+      <p class="alert alert-info text-center">Aucuns Utilisateurs</p>
+    </div>
+
+    <!-- filtres-->
+    <div
+      class="mb-2 p-4 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark rounded"
+      v-else
+    >
       <div class="d-flex gap-4">
+        <label class="visually-hidden" for="searchInput">Recherche utilisateur</label>
         <input
           v-model="searchVal"
           placeholder="Nom, Prénom, Email, Tel."
           class="form-control"
           type="text"
+          id="searchInput"
         />
-        <select title="Limite d'utilisateurs" v-model="searchLmt">
+        <select name="limit" title="Limite d'utilisateurs" v-model="searchLmt">
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
@@ -31,7 +36,6 @@
         </select>
       </div>
       <div class="d-flex gap-4">
-        <button title="Recherche" class="btn btn-outline-warning" @click="filter">🔎</button>
         <button title="Annuler filtre" class="btn btn-outline-danger" @click="reset">❌</button>
       </div>
       <p class="text-center">
@@ -55,10 +59,12 @@
           <td>{{ user.mail }}</td>
           <td>{{ user.phone }}</td>
         </tr>
+        <tr v-else-if="filteredUsers.length === 0 && searchVal !== ''">
+          <td colspan="3">Aucuns résultats</td>
+        </tr>
         <!--si le tableau à filtre est remplis-->
-        <tr v-else v-for="user in filteredUsers">
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.name }}</td>
+        <tr v-else v-for="user in filteredUsers" :key="user.id_">
+          <td>{{ user.lastName + ' ' + user.name }}</td>
           <td>{{ user.mail }}</td>
           <td>{{ user.phone }}</td>
         </tr>
@@ -66,7 +72,8 @@
     </table>
     <!--boutton pour charger plus de resultats-->
     <button
-      v-if="page < totalPage && !isLoading"
+      v-if="page < totalPage"
+      :disabled="isLoading"
       class="btn btn-outline-warning d-block mx-auto mt-3"
       @click="loadMore"
     >
@@ -78,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject, watch } from 'vue'
+import { ref, onMounted, inject, watch, computed } from 'vue'
 import Loader from '@/components/Loader.vue'
 
 const isLoading = ref(false)
@@ -89,7 +96,15 @@ const page = ref(1)
 const totalPage = ref(0)
 const total = ref(0)
 const searchVal = ref('')
-const filteredUsers = ref([])
+const filteredUsers = computed(() => {
+  const search = searchVal.value.toLowerCase()
+  if (!search) return users.value
+  return users.value.filter((item) =>
+    [item.name, item.lastName, item.mail, item.phone].some((val) =>
+      val.toLowerCase().includes(search),
+    ),
+  )
+})
 const VivoBack = inject('VivoBack')
 
 watch(searchLmt, async () => {
@@ -125,22 +140,5 @@ const loadMore = async () => {
 const reset = () => {
   filteredUsers.value = []
   searchVal.value = ''
-}
-
-const filter = () => {
-  try {
-    filteredUsers.value = users.value.filter((item) => {
-      const search = searchVal.value.toLowerCase()
-      return (
-        item.name.toLowerCase().includes(search) ||
-        item.lastName.toLowerCase().includes(search) ||
-        item.phone.toLowerCase().includes(search) ||
-        item.mail.toLowerCase().includes(search)
-      )
-    })
-  } catch (error) {
-    errorMessage.value = error
-    console.error(error)
-  }
 }
 </script>
