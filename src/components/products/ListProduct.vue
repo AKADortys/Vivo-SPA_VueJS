@@ -47,7 +47,7 @@
   <p v-if="errorMessage" class="text-danger text-center w-100 alert alert-danger">
     {{ errorMessage }}
   </p>
-  <Loader v-else-if="!products.length" />
+  <Loader v-else-if="isLoading" />
 </template>
 
 <script setup>
@@ -56,16 +56,19 @@ import { usePanierStore } from '@/store/cartStore'
 import Loader from '@/components/Loader.vue'
 
 const panierStore = usePanierStore()
-
+const isLoading = ref(false)
 const errorMessage = ref(null)
 const products = ref([])
 const category = ref(['Plat principal', 'Dessert', 'Boisson', 'Divers'])
 
 onMounted(async () => {
   try {
+    isLoading.value = true
     await panierStore.getProduct()
     products.value = panierStore.products
+    isLoading.value = false
   } catch (error) {
+    isLoading.value = false
     console.error('Erreur lors du chargement des produits:', error)
     errorMessage.value = error.message || 'Une erreur réseau est survenue'
   }
@@ -82,7 +85,7 @@ const filteredProducts = computed(() => {
 const addToCart = (product) => {
   console.log(`Ajout de ${product.label} au panier`)
   const formatProduct = {
-    id: product._id,
+    id: product.id,
     label: product.label,
     price: product.price,
     quantity: 1,

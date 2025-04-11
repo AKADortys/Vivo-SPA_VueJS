@@ -1,8 +1,6 @@
 <template>
-  <div class="bg-secondary bg-gradient mb-4">
-    <p v-if="errorMessage">{{ errorMessage }}</p>
+  <div class="bg-secondary bg-gradient">
     <div
-      v-else
       class="p-4 d-flex gap-3 flex-column flex-md-row align-items-center bg-dark bg-gradient border rounded mb-4"
     >
       <select v-model="filter" name="status">
@@ -39,7 +37,8 @@
       <p>Page {{ page }} sur {{ totalPages }}</p>
       <p>Résultats: {{ total }}</p>
     </div>
-    <Loader v-if="isLoading" />
+    <p v-if="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</p>
+    <Loader v-else-if="isLoading" />
     <transition name="fade">
       <div class="container" v-if="orders.length && !isLoading">
         <div class="row gap-1 justify-content-center">
@@ -57,28 +56,37 @@
             <p class="text-center">
               Date: <span class="text-warning">{{ formatDate(order.createdAt) }}</span>
             </p>
-            <RouterLink :to="`/order/${order._id}`" class="">
-              <button class="btn btn-primary d-block mx-auto">Voir détails</button>
-            </RouterLink>
+            <button class="btn btn-primary d-block mx-auto" @click="loadOrder(order._id)">
+              Voir détails
+            </button>
           </div>
         </div>
       </div>
-      <div v-else-if="!orders.length && !isLoading" class="container p-4">
+      <div v-else-if="!orders.length && !isLoading && !errorMessage" class="container p-4">
         <p class="text-center alert alert-info">Aucune commande</p>
       </div>
     </transition>
+    <OrderPanel
+      v-if="details && Object.keys(details).length"
+      :order="details"
+      ref="orderPanelRef"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, inject, watch } from 'vue'
+import { ref, onMounted, inject, watch, nextTick } from 'vue'
 import Loader from '@/components/Loader.vue'
+import OrderPanel from '@/components/admin/orders/OrderPanel.vue'
+
 const VivoBack = inject('VivoBack')
+const orderPanelRef = ref(null)
 const isLoading = ref(false)
 const errorMessage = ref('')
 const orders = ref([])
 const total = ref(0)
 const totalPages = ref(0)
+const details = ref({})
 
 const page = ref(1)
 watch(page, () => {
@@ -119,6 +127,22 @@ const getOrders = async () => {
     isLoading.value = false
   }
 }
+
+const loadOrder = async (id) => {
+  try {
+    const response = await VivoBack.getOrderFull(id)
+    details.value = response
+    // Petit délai pour que le DOM se mette à jour avant scroll
+    nextTick(() => {
+      if (orderPanelRef.value) {
+        orderPanelRef.value.$el.scrollIntoView({ behavior: 'smooth' })
+      }
+    })
+  } catch (error) {
+    errorMessage.value = error
+    console.error(error)
+  }
+}
 const formatDate = (isoDate) => {
   const date = new Date(isoDate)
   const options = {
@@ -144,7 +168,7 @@ const formatDate = (isoDate) => {
 }
 
 .container {
-  max-height: 650px;
+  max-height: 550px;
   overflow-y: auto;
 }
 </style>

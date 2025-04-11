@@ -92,6 +92,10 @@ class VivoBack {
     return this.request('delete', `/orders/${orderId}`)
   }
 
+  getOrderFull(orderId) {
+    return this.request('get', `/orders/detail/${orderId}`)
+  }
+
   // Gestion des produits
   async getProducts() {
     const data = await this.request('get', '/products')
