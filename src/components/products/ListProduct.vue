@@ -56,7 +56,6 @@ import { usePanierStore } from '@/store/cartStore'
 import Loader from '@/components/Loader.vue'
 
 const panierStore = usePanierStore()
-const VivoBack = inject('VivoBack')
 
 const errorMessage = ref(null)
 const products = ref([])
@@ -64,8 +63,8 @@ const category = ref(['Plat principal', 'Dessert', 'Boisson', 'Divers'])
 
 onMounted(async () => {
   try {
-    const response = await VivoBack.getProducts()
-    products.value = response
+    await panierStore.getProduct()
+    products.value = panierStore.products
   } catch (error) {
     console.error('Erreur lors du chargement des produits:', error)
     errorMessage.value = error.message || 'Une erreur réseau est survenue'

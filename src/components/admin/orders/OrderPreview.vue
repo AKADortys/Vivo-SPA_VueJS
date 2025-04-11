@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-secondary bg-gradient p-4 mb-4">
+  <div class="bg-secondary bg-gradient mb-4">
     <p v-if="errorMessage">{{ errorMessage }}</p>
     <div
       v-else
-      class="p-4 d-flex gap-4 flex-column flex-md-row align-items-center bg-dark bg-gradient border rounded mb-4"
+      class="p-4 d-flex gap-3 flex-column flex-md-row align-items-center bg-dark bg-gradient border rounded mb-4"
     >
       <select v-model="filter" name="status">
         <option value="En cours de traitement">En cours de traitement</option>
@@ -18,8 +18,6 @@
         <option value="50">50</option>
         <option value="100">100</option>
       </select>
-      <p>Résultats: {{ total }}</p>
-      <p>Page {{ page }} sur {{ totalPages }}</p>
       <div class="d-flex gap-2">
         <button
           class="btn btn-outline-warning"
@@ -38,14 +36,16 @@
           ➡️
         </button>
       </div>
+      <p>Page {{ page }} sur {{ totalPages }}</p>
+      <p>Résultats: {{ total }}</p>
     </div>
     <Loader v-if="isLoading" />
     <transition name="fade">
-      <div class="container bg-gradient bg-transparent" v-if="orders.length && !isLoading">
+      <div class="container" v-if="orders.length && !isLoading">
         <div class="row gap-1 justify-content-center">
           <div
             v-for="order in orders"
-            class="col-12 col-md-5 p-4 my-2 alert alert-info"
+            class="col-12 col-md-5 p-4 my-2 alert alert-primary"
             :key="order._id"
           >
             <p class="text-center">
@@ -63,8 +63,8 @@
           </div>
         </div>
       </div>
-      <div v-else-if="!orders.length && !isLoading" class="container">
-        <p>Aucune commande</p>
+      <div v-else-if="!orders.length && !isLoading" class="container p-4">
+        <p class="text-center alert alert-info">Aucune commande</p>
       </div>
     </transition>
   </div>

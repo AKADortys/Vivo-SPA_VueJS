@@ -1,5 +1,5 @@
 <template>
-  <h3 class="w-100 text-center mb-4 display-4 text-white">Historique des commandes</h3>
+  <h3 class="w-100 text-center mb-4 display-4 titre text-white">Historique des commandes</h3>
   <p v-if="total" class="text-center text-white mb-4">{{ total }} commande(s)</p>
   <div
     class="col-12 col-md-10 col-lg-8 mx-auto my-4 p-1 bg-dark bg-gradient rounded border shadow-lg justify-content-center align-items-center overflow-auto mainContent"
