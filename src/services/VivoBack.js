@@ -2,10 +2,10 @@ import axios from 'axios'
 import { setupCache } from 'axios-cache-adapter'
 
 // Création d'un cache avec une durée de vie de 1 minutes
-const cache = setupCache({
-  maxAge: 1 * 60 * 1000,
-  exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
-})
+// const cache = setupCache({
+//   maxAge: 1 * 60 * 1000,
+//   exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
+// })
 
 class VivoBack {
   constructor(baseURL) {
@@ -13,7 +13,7 @@ class VivoBack {
       baseURL,
       withCredentials: true,
       headers: { 'Content-Type': 'application/json' },
-      adapter: cache.adapter,
+      // adapter: cache.adapter,
     })
   }
 

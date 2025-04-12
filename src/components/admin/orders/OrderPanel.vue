@@ -36,10 +36,19 @@
         </div>
       </li>
     </ul>
+    <ConfirmBtn
+      :order="order"
+      v-if="order.status === 'En cours de traitement'"
+      @button-clicked="close"
+    />
   </div>
 </template>
 
 <script setup>
+import ConfirmBtn from '@/components/admin/orders/ConfirmBtn.vue'
+
+const emit = defineEmits(['close-section'])
+
 const props = defineProps({
   order: {
     type: Object,
@@ -57,6 +66,10 @@ const formatDate = (isoDate) => {
     hour: '2-digit',
     minute: '2-digit',
   })
+}
+
+const close = () => {
+  emit('close-section')
 }
 </script>
 

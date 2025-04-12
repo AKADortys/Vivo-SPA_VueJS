@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-secondary bg-gradient">
+  <div class="bg-secondary bg-gradient d-flex flex-column">
     <div
       class="p-4 d-flex gap-3 flex-column flex-md-row align-items-center bg-dark bg-gradient border rounded mb-4"
     >
@@ -17,6 +17,14 @@
         <option value="100">100</option>
       </select>
       <div class="d-flex gap-2">
+        <button
+          @click="getOrders"
+          class="btn btn-outline-warning"
+          title="Rafraîchir"
+          :disabled="isLoading"
+        >
+          🔁
+        </button>
         <button
           class="btn btn-outline-warning"
           title="Précédent"
@@ -40,11 +48,11 @@
     <p v-if="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</p>
     <Loader v-else-if="isLoading" />
     <transition name="fade">
-      <div class="container" v-if="orders.length && !isLoading">
-        <div class="row gap-1 justify-content-center">
+      <div class="container mb-4" v-if="orders.length && !isLoading">
+        <div class="row justify-content-center">
           <div
             v-for="order in orders"
-            class="col-12 col-md-5 p-4 my-2 alert alert-primary"
+            class="col-12 col-md-3 p-4 my-1 mx-1 alert alert-primary"
             :key="order._id"
           >
             <p class="text-center">
@@ -66,7 +74,9 @@
         <p class="text-center alert alert-info">Aucune commande</p>
       </div>
     </transition>
+    <button class="btn btn-danger" title="Fermer" v-if="details" @click="details = null">✖️</button>
     <OrderPanel
+      @close-section="closeOrderPanel"
       v-if="details && Object.keys(details).length"
       :order="details"
       ref="orderPanelRef"
@@ -86,7 +96,7 @@ const errorMessage = ref('')
 const orders = ref([])
 const total = ref(0)
 const totalPages = ref(0)
-const details = ref({})
+const details = ref(null)
 
 const page = ref(1)
 watch(page, () => {
@@ -143,6 +153,12 @@ const loadOrder = async (id) => {
     console.error(error)
   }
 }
+
+const closeOrderPanel = () => {
+  details.value = null
+  getOrders()
+}
+
 const formatDate = (isoDate) => {
   const date = new Date(isoDate)
   const options = {
