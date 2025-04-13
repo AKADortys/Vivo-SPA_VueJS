@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-secondary bg-gradient d-flex flex-column">
+  <div class="d-flex flex-column">
     <div
       class="p-4 d-flex gap-3 flex-column flex-md-row align-items-center bg-dark bg-gradient border rounded mb-4"
     >
@@ -22,6 +22,7 @@
           class="btn btn-outline-warning"
           title="Rafraîchir"
           :disabled="isLoading"
+          aria-label="Rafraîchir"
         >
           🔁
         </button>
@@ -30,6 +31,7 @@
           title="Précédent"
           @click="page > 1 && page--"
           :disabled="page <= 1"
+          aria-label="Page précédente"
         >
           ⬅️
         </button>
@@ -38,6 +40,7 @@
           title="Suivant"
           @click="page < totalPages && page++"
           :disabled="page >= totalPages"
+          aria-label="Page suivante"
         >
           ➡️
         </button>
@@ -52,17 +55,17 @@
         <div class="row justify-content-center">
           <div
             v-for="order in orders"
-            class="col-12 col-md-3 p-4 my-1 mx-1 alert alert-primary"
+            class="col-12 col-md-3 p-4 m-1 alert alert-secondary"
             :key="order._id"
           >
-            <p class="text-center">
+            <p class="text-center mb-1">
               Numéro de commande: <span class="text-primary">{{ order._id }}</span>
             </p>
-            <p class="text-center">
+            <p class="text-center mb-1">
               {{ order.deliveryAddress ? order.deliveryAddress : 'Récupération en magasin' }}
             </p>
-            <p class="text-center">
-              Date: <span class="text-warning">{{ formatDate(order.createdAt) }}</span>
+            <p class="text-center mb-1">
+              Date: <span class="text-primary">{{ formatDate(order.createdAt) }}</span>
             </p>
             <button class="btn btn-primary d-block mx-auto" @click="loadOrder(order._id)">
               Voir détails
@@ -105,14 +108,8 @@ watch(page, () => {
 })
 
 const limit = ref(10)
-watch(limit, () => {
-  page.value = 1
-  isLoading.value = true
-  getOrders()
-})
-
 const filter = ref('En cours de traitement')
-watch(filter, () => {
+watch([limit, filter], () => {
   page.value = 1
   isLoading.value = true
   getOrders()
@@ -132,7 +129,7 @@ const getOrders = async () => {
     totalPages.value = response.totalPages
   } catch (error) {
     console.error(error)
-    errorMessage.value = error
+    errorMessage.value = error.message || 'Erreur Réseau'
   } finally {
     isLoading.value = false
   }
@@ -149,7 +146,7 @@ const loadOrder = async (id) => {
       }
     })
   } catch (error) {
-    errorMessage.value = error
+    errorMessage.value = error.message
     console.error(error)
   }
 }

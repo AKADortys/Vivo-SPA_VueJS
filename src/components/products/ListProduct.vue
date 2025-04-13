@@ -1,5 +1,6 @@
 <template>
-  <div v-if="products.length" class="accordion w-100" id="categoryAccordion">
+  <!-- Affichage de l'accordéon uniquement si produits disponibles ET chargement terminé -->
+  <div v-if="!isLoading && products.length" class="accordion w-100" id="categoryAccordion">
     <div v-for="(cat, index) in category" :key="cat" class="accordion-item bg-dark text-white">
       <!-- Titre de la catégorie -->
       <h2 class="accordion-header">
@@ -23,8 +24,9 @@
         data-bs-parent="#categoryAccordion"
       >
         <div class="accordion-body">
+          <!-- Produits disponibles -->
           <div
-            v-if="filteredProducts[cat].length"
+            v-if="filteredProducts[cat] && filteredProducts[cat].length"
             class="d-flex flex-wrap gap-2 justify-content-center"
           >
             <div
@@ -38,16 +40,26 @@
               <p class="text-info mb-2">Prix : {{ product.price }} €</p>
             </div>
           </div>
-          <p v-else class="text-center text-warning">Aucun produit disponible.</p>
+
+          <!-- Aucun produit -->
+          <p v-else-if="!errorMessage" class="text-center text-warning">
+            Aucun produit disponible.
+          </p>
+
+          <!-- Erreur de chargement -->
+          <p v-else class="text-danger text-center w-100 alert alert-danger">
+            {{ errorMessage }}
+          </p>
         </div>
       </div>
     </div>
   </div>
 
-  <p v-if="errorMessage" class="text-danger text-center w-100 alert alert-danger">
-    {{ errorMessage }}
-  </p>
+  <!-- Affichage du loader -->
   <Loader v-else-if="isLoading" />
+
+  <!-- Fallback : aucun produit et pas en chargement -->
+  <p v-else class="text-center text-warning mt-4">Aucun produit trouvé pour le moment.</p>
 </template>
 
 <script setup>
@@ -66,11 +78,11 @@ onMounted(async () => {
     isLoading.value = true
     await panierStore.getProduct()
     products.value = panierStore.products
-    isLoading.value = false
   } catch (error) {
-    isLoading.value = false
     console.error('Erreur lors du chargement des produits:', error)
-    errorMessage.value = error.message || 'Une erreur réseau est survenue'
+    errorMessage.value = error
+  } finally {
+    isLoading.value = false
   }
 })
 
@@ -83,7 +95,6 @@ const filteredProducts = computed(() => {
 })
 
 const addToCart = (product) => {
-  console.log(`Ajout de ${product.label} au panier`)
   const formatProduct = {
     id: product.id,
     label: product.label,

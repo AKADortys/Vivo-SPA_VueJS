@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center w-100">
+  <div class="d-flex justify-content-center w-100 p-5">
     <!-- From Uiverse.io by barisdogansutcu -->
     <svg viewBox="25 25 50 50">
       <circle r="20" cy="50" cx="50"></circle>
@@ -17,7 +17,7 @@ svg {
 
 circle {
   fill: none;
-  stroke: hsl(214, 97%, 59%);
+  stroke: hsl(62, 97%, 59%);
   stroke-width: 2;
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;

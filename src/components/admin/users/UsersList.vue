@@ -1,29 +1,14 @@
 <template>
   <div class="p-2 my-2 bg-secondary bg-gradient col-12">
     <h1 class="titre display-2">Liste utilisateur</h1>
-    <!--Chargement-->
-    <Loader v-if="isLoading" />
-
-    <!--Erreur server-->
-    <p class="alert alert-danger text-center" v-else-if="errorMessage">
-      {{ errorMessage }}
-    </p>
-
-    <!--tableau vide-->
-    <div class="bg-dark bg-gradient border border-warning rounded" v-else-if="!users.length">
-      <p class="alert alert-info text-center">Aucuns Utilisateurs</p>
-    </div>
 
     <!-- filtres-->
-    <div
-      class="mb-2 p-4 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark rounded"
-      v-else
-    >
+    <div class="mb-2 p-4 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark rounded">
       <div class="d-flex gap-4">
         <label class="visually-hidden" for="searchInput">Recherche utilisateur</label>
         <input
           v-model="searchVal"
-          placeholder="Nom, Prénom, Email, Tel."
+          placeholder="Nom, Prénom"
           class="form-control"
           type="text"
           id="searchInput"
@@ -36,109 +21,112 @@
         </select>
       </div>
       <div class="d-flex gap-4">
+        <button @click="getUsers" class="btn btn-primary">Recherche</button>
         <button title="Annuler filtre" class="btn btn-outline-danger" @click="reset">❌</button>
+        <button
+          class="btn btn-outline-warning"
+          @click="page--"
+          :disabled="page <= 1"
+          aria-label="Page précédente"
+          title="Page précédente"
+        >
+          ⬅️
+        </button>
+        <button
+          class="btn btn-outline-warning"
+          @click="page++"
+          :disabled="page >= totalPage"
+          aria-label="Page suivante"
+          title="Page suivante"
+        >
+          ➡️
+        </button>
       </div>
+      <p class="text-center text-light">Page {{ page }} sur {{ totalPage }}</p>
       <p class="text-center">
         Total utilisateur(s) <span class="text-warning">{{ total }}</span>
       </p>
     </div>
+    <!--Chargement-->
+    <Loader v-if="isLoading" />
+    <!-- Remplace la table par une div -->
+    <div class="table-wrapper text-light" v-if="!isLoading">
+      <div class="table-header d-flex bg-dark p-2 fw-bold">
+        <div class="col">Nom</div>
+        <div class="col">Email</div>
+        <div class="col">Téléphone</div>
+      </div>
 
-    <!--Table-->
-    <table class="table table-striped table-dark table-hover text-center overflow-auto w-100">
-      <thead>
-        <tr>
-          <td class="text-warning">Nom</td>
-          <td class="text-warning">Email</td>
-          <td class="text-warning">Téléphone</td>
-        </tr>
-      </thead>
-      <tbody>
-        <!--si le tableau à filtre est vide-->
-        <tr v-if="users.length && !filteredUsers.length" v-for="user in users" :key="user._id">
-          <td>{{ user.lastName + ' ' + user.name }}</td>
-          <td>{{ user.mail }}</td>
-          <td>{{ user.phone }}</td>
-        </tr>
-        <tr v-else-if="filteredUsers.length === 0 && searchVal !== ''">
-          <td colspan="3">Aucuns résultats</td>
-        </tr>
-        <!--si le tableau à filtre est remplis-->
-        <tr v-else v-for="user in filteredUsers" :key="user.id_">
-          <td>{{ user.lastName + ' ' + user.name }}</td>
-          <td>{{ user.mail }}</td>
-          <td>{{ user.phone }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!--boutton pour charger plus de resultats-->
-    <button
-      v-if="page < totalPage"
-      :disabled="isLoading"
-      class="btn btn-outline-warning d-block mx-auto mt-3"
-      @click="loadMore"
-    >
-      Charger {{ searchLmt }} plus
-      <br />
-      Page {{ page }} sur {{ totalPage }}
-    </button>
+      <div
+        v-for="user in users"
+        :key="user._id"
+        class="d-flex p-2 border-bottom align-items-center"
+      >
+        <div class="col">{{ user.lastName + ' ' + user.name }}</div>
+        <div class="col">{{ user.mail }}</div>
+        <div class="col">{{ user.phone }}</div>
+      </div>
+
+      <div v-if="users.length === 0 && errorMessage" key="error" class="alert alert-danger w-100">
+        {{ errorMessage }}
+      </div>
+      <div v-else-if="users.length === 0" key="empty" class="alert alert-info w-100">
+        Aucun résultat
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, inject, watch, computed } from 'vue'
+import { ref, onMounted, inject, watch } from 'vue'
 import Loader from '@/components/Loader.vue'
+const VivoBack = inject('VivoBack')
 
 const isLoading = ref(false)
 const errorMessage = ref(null)
 const users = ref([])
-const searchLmt = ref(10)
-const page = ref(1)
+
 const totalPage = ref(0)
 const total = ref(0)
 const searchVal = ref('')
-const filteredUsers = computed(() => {
-  const search = searchVal.value.toLowerCase()
-  if (!search) return users.value
-  return users.value.filter((item) =>
-    [item.name, item.lastName, item.mail, item.phone].some((val) =>
-      val.toLowerCase().includes(search),
-    ),
-  )
-})
-const VivoBack = inject('VivoBack')
 
+const page = ref(1)
+watch(page, async () => {
+  await getUsers()
+})
+
+const searchLmt = ref(10)
 watch(searchLmt, async () => {
-  users.value = []
   page.value = 1
-  isLoading.value = true
   await getUsers()
 })
 
 onMounted(async () => {
-  isLoading.value = true
   await getUsers()
 })
+
 const getUsers = async () => {
   try {
-    const response = await VivoBack.getUsers(page.value, searchLmt.value)
+    if (isLoading.value) return
+    isLoading.value = true
+    const response = await VivoBack.getUsers(page.value, searchLmt.value, searchVal.value)
     const data = Array.isArray(response.data) ? response.data : []
-    users.value.push(...data)
-    isLoading.value = false
+    users.value = data
     page.value = response.page
     totalPage.value = response.totalPages
     total.value = response.total
   } catch (error) {
-    isLoading.value = false
     errorMessage.value = error
+  } finally {
+    isLoading.value = false
   }
 }
-const loadMore = async () => {
-  page.value++
-  getUsers()
-}
 
-const reset = () => {
-  filteredUsers.value = []
+const reset = async () => {
   searchVal.value = ''
+  errorMessage.value = null
+  page.value = 1
+  isLoading.value = true
+  await getUsers()
 }
 </script>
