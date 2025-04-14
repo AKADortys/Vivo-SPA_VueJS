@@ -52,22 +52,22 @@
     <Loader v-else-if="isLoading" />
     <transition name="fade">
       <div class="container mb-4" v-if="orders.length && !isLoading">
-        <div class="row justify-content-center">
+        <div class="row justify-content-around">
           <div
             v-for="order in orders"
-            class="col-12 col-md-3 p-4 m-1 alert alert-secondary"
+            class="col-12 col-md-3 p-2 m-1 alert alert-secondary shadow-lg"
             :key="order._id"
           >
-            <p class="text-center mb-1">
+            <p class="mb-1">
               Numéro de commande: <span class="text-primary">{{ order._id }}</span>
             </p>
-            <p class="text-center mb-1">
+            <p class="mb-1">
               {{ order.deliveryAddress ? order.deliveryAddress : 'Récupération en magasin' }}
             </p>
-            <p class="text-center mb-1">
+            <p class="mb-1">
               Date: <span class="text-primary">{{ formatDate(order.createdAt) }}</span>
             </p>
-            <button class="btn btn-primary d-block mx-auto" @click="loadOrder(order._id)">
+            <button class="btn btn-primary d-block mx-auto my-2" @click="loadOrder(order._id)">
               Voir détails
             </button>
           </div>
@@ -103,7 +103,6 @@ const details = ref(null)
 
 const page = ref(1)
 watch(page, () => {
-  isLoading.value = true
   getOrders()
 })
 
@@ -111,17 +110,18 @@ const limit = ref(10)
 const filter = ref('En cours de traitement')
 watch([limit, filter], () => {
   page.value = 1
-  isLoading.value = true
   getOrders()
 })
 
 onMounted(async () => {
-  isLoading.value = true
   getOrders()
 })
 
 const getOrders = async () => {
   try {
+    if (isLoading.value) return
+    isLoading.value = true
+
     orders.value = []
     const response = await VivoBack.getOrdersByStatus(filter.value, page.value, limit.value)
     orders.value = response.data
@@ -178,10 +178,5 @@ const formatDate = (isoDate) => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.container {
-  max-height: 550px;
-  overflow-y: auto;
 }
 </style>

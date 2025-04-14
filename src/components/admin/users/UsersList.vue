@@ -1,9 +1,9 @@
 <template>
-  <div class="p-2 my-2 bg-secondary bg-gradient col-12">
-    <h1 class="titre display-2">Liste utilisateur</h1>
-
+  <div class="p-2 col-12">
     <!-- filtres-->
-    <div class="mb-2 p-4 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark rounded">
+    <div
+      class="mb-2 p-4 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark bg-gradient border border-warning rounded"
+    >
       <div class="d-flex gap-4">
         <label class="visually-hidden" for="searchInput">Recherche utilisateur</label>
         <input
@@ -50,41 +50,53 @@
     <!--Chargement-->
     <Loader v-if="isLoading" />
     <!-- Remplace la table par une div -->
-    <div class="table-wrapper text-light" v-if="!isLoading">
-      <div class="table-header d-flex bg-dark p-2 fw-bold">
-        <div class="col">Nom</div>
-        <div class="col">Email</div>
-        <div class="col">Téléphone</div>
+    <transition name="fade">
+      <div class="container" v-if="!isLoading">
+        <div class="row justify-content-around gap-1">
+          <div
+            v-for="user in users"
+            :key="user._id"
+            class="p-2 alert alert-secondary shadow-lg col-12 col-md-3"
+          >
+            <p>
+              Nom: <span>{{ user.name }}</span>
+            </p>
+            <p>
+              Prénom: <span>{{ user.lastName }}</span>
+            </p>
+            <p>
+              Téléphone: <span>{{ user.phone }}</span>
+            </p>
+            <p>
+              Email: <span>{{ user.mail }}</span>
+            </p>
+            <button class="d-block mx-auto my-2 btn btn-primary" @click="getDetails(user._id)">
+              Voir détails
+            </button>
+          </div>
+        </div>
+        <div v-if="users.length === 0 && errorMessage" key="error" class="alert alert-danger w-100">
+          {{ errorMessage }}
+        </div>
+        <div v-else-if="users.length === 0" key="empty" class="alert alert-info w-100">
+          Aucun résultat
+        </div>
       </div>
-
-      <div
-        v-for="user in users"
-        :key="user._id"
-        class="d-flex p-2 border-bottom align-items-center"
-      >
-        <div class="col">{{ user.lastName + ' ' + user.name }}</div>
-        <div class="col">{{ user.mail }}</div>
-        <div class="col">{{ user.phone }}</div>
-      </div>
-
-      <div v-if="users.length === 0 && errorMessage" key="error" class="alert alert-danger w-100">
-        {{ errorMessage }}
-      </div>
-      <div v-else-if="users.length === 0" key="empty" class="alert alert-info w-100">
-        Aucun résultat
-      </div>
-    </div>
+    </transition>
+    <UserPanel :user="selectedUser" />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, inject, watch } from 'vue'
 import Loader from '@/components/Loader.vue'
+import UserPanel from '@/components/admin/users/UserPanel.vue'
 const VivoBack = inject('VivoBack')
 
 const isLoading = ref(false)
 const errorMessage = ref(null)
 const users = ref([])
+const selectedUser = ref({ user: {}, orders: [] })
 
 const totalPage = ref(0)
 const total = ref(0)
@@ -109,6 +121,7 @@ const getUsers = async () => {
   try {
     if (isLoading.value) return
     isLoading.value = true
+    users.value = []
     const response = await VivoBack.getUsers(page.value, searchLmt.value, searchVal.value)
     const data = Array.isArray(response.data) ? response.data : []
     users.value = data
@@ -126,7 +139,28 @@ const reset = async () => {
   searchVal.value = ''
   errorMessage.value = null
   page.value = 1
-  isLoading.value = true
   await getUsers()
 }
+
+const getDetails = async (userId) => {
+  try {
+    const response = await VivoBack.getUserOrders(userId)
+    selectedUser.value.orders = response
+    selectedUser.value.user = users.value.find((n) => n._id === userId)
+  } catch (error) {
+    console.error(error.message)
+    errorMessage.value = error.message ?? 'Network error'
+  }
+}
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

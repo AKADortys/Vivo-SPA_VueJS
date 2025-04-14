@@ -3,7 +3,7 @@ import { setupCache } from 'axios-cache-adapter'
 
 // Création d'un cache avec une durée de vie de 1 minutes
 const cache = setupCache({
-  maxAge: 1 * 60 * 1000,
+  maxAge: 30 * 1000,
   exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
 })
 
