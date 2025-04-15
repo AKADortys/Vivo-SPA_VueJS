@@ -45,11 +45,6 @@
           <p v-else-if="!errorMessage" class="text-center text-warning">
             Aucun produit disponible.
           </p>
-
-          <!-- Erreur de chargement -->
-          <p v-else class="text-danger text-center w-100 alert alert-danger">
-            {{ errorMessage }}
-          </p>
         </div>
       </div>
     </div>
@@ -57,13 +52,17 @@
 
   <!-- Affichage du loader -->
   <Loader v-else-if="isLoading" />
+  <!-- Erreur de chargement -->
+  <p v-else-if="errorMessage" class="text-danger text-center w-100 alert alert-danger">
+    {{ errorMessage }}
+  </p>
 
   <!-- Fallback : aucun produit et pas en chargement -->
   <p v-else class="text-center text-warning mt-4">Aucun produit trouvé pour le moment.</p>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, inject } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
 import Loader from '@/components/Loader.vue'
 

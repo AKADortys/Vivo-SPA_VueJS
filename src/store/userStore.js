@@ -144,7 +144,7 @@ export const useUserStore = defineStore('user', {
         return response
       } catch (error) {
         console.error('Error getting orders:', error)
-        return []
+        throw error.message || error
       }
     },
   },

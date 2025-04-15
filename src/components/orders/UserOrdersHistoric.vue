@@ -6,45 +6,47 @@
   >
     <div>
       <Loader v-if="loading" />
-      <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
-      <p v-else-if="!order.length" class="text-info text-center p-4">Aucune commande trouvée</p>
-      <div v-for="orderItem in order" :key="orderItem._id">
-        <section>
-          <h4 class="text-primary text-center">
-            Commande du
-            {{
-              new Date(orderItem.createdAt).toLocaleDateString('fr-FR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })
-            }}
-          </h4>
-          <p class="text-center mb-2">
-            Livraison
-            <span class="text-warning">{{
-              orderItem.deliveryAddress ? orderItem.deliveryAddress : 'Aucunes'
-            }}</span>
-          </p>
-          <p class="text-center mb-2">
-            Statut <span class="text-warning">{{ orderItem.status }}</span>
-          </p>
-          <p class="text-center mb-2">
-            N° commande <span class="text-warning">{{ orderItem._id }}</span>
-          </p>
-          <div
-            class="d-flex flex-wrap align-items-center justify-content-center border-bottom mb-3 py-2"
-          >
-            <div class="d-flex gap-4">
-              <p class="text-center">
-                Total <span class="text-warning">{{ orderItem.totalPrice }} €</span>
-              </p>
-              <RouterLink :to="`/order/${orderItem._id}`">
-                <button class="btn btn-primary">Voir détails</button>
-              </RouterLink>
+      <p v-else-if="errorMessage" class="text-danger p-4 text-center">{{ errorMessage }}</p>
+      <div v-else>
+        <div v-if="order.length" class="text-info text-center p-4">Aucune commande trouvée</div>
+        <div v-else v-for="orderItem in order" :key="orderItem._id">
+          <section>
+            <h4 class="text-primary text-center">
+              Commande du
+              {{
+                new Date(orderItem.createdAt).toLocaleDateString('fr-FR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })
+              }}
+            </h4>
+            <p class="text-center mb-2">
+              Livraison
+              <span class="text-warning">{{
+                orderItem.deliveryAddress ? orderItem.deliveryAddress : 'Aucune'
+              }}</span>
+            </p>
+            <p class="text-center mb-2">
+              Statut <span class="text-warning">{{ orderItem.status }}</span>
+            </p>
+            <p class="text-center mb-2">
+              N° commande <span class="text-warning">{{ orderItem._id }}</span>
+            </p>
+            <div
+              class="d-flex flex-wrap align-items-center justify-content-center border-bottom mb-3 py-2"
+            >
+              <div class="d-flex gap-4">
+                <p class="text-center">
+                  Total <span class="text-warning">{{ orderItem.totalPrice }} €</span>
+                </p>
+                <RouterLink :to="`/order/${orderItem._id}`">
+                  <button class="btn btn-primary">Voir détails</button>
+                </RouterLink>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
       <button
         v-if="page < totalPages && !loading"
@@ -52,7 +54,7 @@
         class="btn btn-outline-warning d-block mx-auto mt-3"
       >
         Charger plus de commandes <br />
-        Pages {{ page }} sur {{ totalPages }}
+        Page {{ page }} sur {{ totalPages }}
       </button>
     </div>
   </div>
@@ -67,8 +69,8 @@ import Loader from '@/components/Loader.vue'
 const userStore = useUserStore()
 
 const user = ref(null)
-const order = ref([])
-const errorMessage = ref(null)
+const order = ref(null)
+const errorMessage = ref('')
 const loading = ref(true)
 const page = ref(1)
 const totalPages = ref(1)
@@ -78,29 +80,37 @@ onMounted(async () => {
   loading.value = true
   await userStore.chargerUtilisateur()
   user.value = userStore.utilisateur
-  await getOrders()
+  if (user.value) {
+    await getOrders()
+  } else {
+    loading.value = false
+    errorMessage.value = 'Utilisateur non trouvé'
+  }
 })
+
 const getOrders = async () => {
   try {
     if (user.value) {
       const response = await userStore.getOrders(user.value.id, page.value)
       const data = Array.isArray(response.data) ? response.data : []
-      order.value.push(...data)
-      order.value.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      order.value = [].push(...data)
       totalPages.value = response.totalPages
       total.value = response.total
-    } else {
-      errorMessage.value = 'Utilisateur non connecté'
     }
   } catch (error) {
-    errorMessage.value = response
+    errorMessage.value = error.message ?? 'Network Error'
+    console.error(error)
   } finally {
     loading.value = false
   }
 }
+
 const loadMore = async () => {
-  page.value++
-  await getOrders()
+  if (page.value < totalPages.value) {
+    loading.value = true
+    page.value++
+    await getOrders()
+  }
 }
 </script>
 

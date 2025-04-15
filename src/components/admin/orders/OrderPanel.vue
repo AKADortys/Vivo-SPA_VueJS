@@ -55,7 +55,7 @@ const props = defineProps({
     required: true,
   },
 })
-
+console.log(props)
 const formatDate = (isoDate) => {
   const date = new Date(isoDate)
   return date.toLocaleString('fr-FR', {

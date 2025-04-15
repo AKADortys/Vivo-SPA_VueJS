@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { setupCache } from 'axios-cache-adapter'
+// import { setupCache } from 'axios-cache-adapter'
 
 // Création d'un cache avec une durée de vie de 1 minutes
-const cache = setupCache({
-  maxAge: 30 * 1000,
-  exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
-})
+// const cache = setupCache({
+//   maxAge: 30 * 1000,
+//   exclude: { query: false }, // Permet de cacher aussi les requêtes avec des params
+// })
 
 class VivoBack {
   constructor(baseURL) {
@@ -13,7 +13,7 @@ class VivoBack {
       baseURL,
       withCredentials: true,
       headers: { 'Content-Type': 'application/json' },
-      adapter: cache.adapter,
+      // adapter: cache.adapter,
     })
   }
 
@@ -34,7 +34,7 @@ class VivoBack {
 
       return response.data
     } catch (error) {
-      const message = error.response?.data || error.message
+      const message = error.message || error
       console.error(`Erreur sur ${method.toUpperCase()} ${url}:`, message)
       throw message
     }
@@ -73,7 +73,7 @@ class VivoBack {
   }
 
   getUserOrders(userId, page, limit) {
-    return this.request('get', `/orders/user/${userId}?page=${page ?? 1}&limit=${limit ?? 10}`)
+    return this.request('get', `/orders/user/${userId}?page=${page ?? 1}&limit=${limit ?? 5}`)
   } //
 
   getOrderById(orderId) {

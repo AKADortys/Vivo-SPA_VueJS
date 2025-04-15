@@ -38,13 +38,11 @@
     class="text-danger text-center d-flex align-items-center justify-content-center p-2 border border-warning shadow-lg bg-dark bg-gradient rounded"
   >
     <p>{{ errorMessage }}</p>
-    <LogPanel />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import LogPanel from '@/components/auth/LogPanel.vue'
 import UserUpdateForm from '@/components/user/UserUpdateForm.vue'
 import Modal from '@/components/Modal.vue'
 import { useUserStore } from '@/store/userStore'

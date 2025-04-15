@@ -50,6 +50,7 @@ export const usePanierStore = defineStore('panier', {
         this.products = await db.product
           .filter((prod) => !prod.expiresAt || prod.expiresAt > Date.now())
           .toArray()
+        throw error.message || error
       }
     },
     async clearProducts() {
@@ -119,7 +120,7 @@ export const usePanierStore = defineStore('panier', {
         return true
       } catch (error) {
         console.error('Erreur lors de la confirmation de la commande:', error)
-        return false
+        throw error.message ?? error
       }
     },
   },

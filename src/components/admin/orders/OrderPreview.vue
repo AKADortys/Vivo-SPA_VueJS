@@ -48,8 +48,8 @@
       <p>Page {{ page }} sur {{ totalPages }}</p>
       <p>Résultats: {{ total }}</p>
     </div>
-    <p v-if="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</p>
-    <Loader v-else-if="isLoading" />
+    <Loader v-if="isLoading" />
+    <p v-else-if="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</p>
     <transition name="fade">
       <div class="container mb-4" v-if="orders.length && !isLoading">
         <div class="row justify-content-around">
@@ -121,6 +121,7 @@ const getOrders = async () => {
   try {
     if (isLoading.value) return
     isLoading.value = true
+    errorMessage.value = ''
 
     orders.value = []
     const response = await VivoBack.getOrdersByStatus(filter.value, page.value, limit.value)
@@ -139,7 +140,6 @@ const loadOrder = async (id) => {
   try {
     const response = await VivoBack.getOrderFull(id)
     details.value = response
-    // Petit délai pour que le DOM se mette à jour avant scroll
     nextTick(() => {
       if (orderPanelRef.value) {
         orderPanelRef.value.$el.scrollIntoView({ behavior: 'smooth' })

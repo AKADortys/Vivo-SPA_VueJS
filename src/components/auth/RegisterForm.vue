@@ -14,7 +14,12 @@ const schema = z
     nom: z.string().min(1, 'Le nom est requis.'),
     prenom: z.string().min(1, 'Le prénom est requis.'),
     email: z.string().email('Email invalide.'),
-    password: z.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères.'),
+    password: z
+      .string()
+      .min(
+        8,
+        'Le mot de passe doit contenir au moins 8 caractères, une majuscule, un minuscule et un numéro.',
+      ),
     confirmPassword: z.string(),
     telephone: z
       .string()

@@ -1,8 +1,7 @@
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
 import { useUserStore } from '@/store/userStore'
-import LogPanel from '@/components/auth/LogPanel.vue'
 import infoOrder from '@/components/about/infoOrder.vue'
 
 const userStore = useUserStore()
@@ -34,7 +33,6 @@ const confirm = () => {
     <p class="text-warning text-center my-4">
       Pour passer commande, connectez vous ou créez un compte
     </p>
-    <LogPanel />
   </div>
   <div class="col-12 col-md-10 col-lg-8" v-else-if="!panierStore.orderProduct.length">
     <h1 class="text-center display-1 titre my-4">Mon panier</h1>

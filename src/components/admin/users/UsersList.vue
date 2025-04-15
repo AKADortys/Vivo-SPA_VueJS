@@ -83,12 +83,14 @@
         </div>
       </div>
     </transition>
-    <UserPanel :user="selectedUser" />
+    <div ref="panelScrollAnchor">
+      <UserPanel v-if="!errorMessage || users.length" :u="selectedUser" :orders="orders" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, inject, watch } from 'vue'
+import { ref, onMounted, inject, watch, nextTick } from 'vue'
 import Loader from '@/components/Loader.vue'
 import UserPanel from '@/components/admin/users/UserPanel.vue'
 const VivoBack = inject('VivoBack')
@@ -96,7 +98,10 @@ const VivoBack = inject('VivoBack')
 const isLoading = ref(false)
 const errorMessage = ref(null)
 const users = ref([])
-const selectedUser = ref({ user: {}, orders: [] })
+const selectedUser = ref({})
+const orders = ref([])
+
+const panelScrollAnchor = ref(null)
 
 const totalPage = ref(0)
 const total = ref(0)
@@ -137,6 +142,7 @@ const getUsers = async () => {
 
 const reset = async () => {
   searchVal.value = ''
+  searchLmt.value = 10
   errorMessage.value = null
   page.value = 1
   await getUsers()
@@ -145,8 +151,16 @@ const reset = async () => {
 const getDetails = async (userId) => {
   try {
     const response = await VivoBack.getUserOrders(userId)
-    selectedUser.value.orders = response
-    selectedUser.value.user = users.value.find((n) => n._id === userId)
+    orders.value = response.data
+    selectedUser.value = users.value.find((n) => n._id === userId)
+    selectedUser.value.totalOrder = response.total
+
+    // Utilisez nextTick pour garantir que le DOM est mis à jour
+    nextTick(() => {
+      if (panelScrollAnchor.value) {
+        panelScrollAnchor.value.scrollIntoView({ behavior: 'smooth' })
+      }
+    })
   } catch (error) {
     console.error(error.message)
     errorMessage.value = error.message ?? 'Network error'

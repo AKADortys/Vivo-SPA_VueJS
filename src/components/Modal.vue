@@ -55,6 +55,7 @@ defineExpose({
   background: rgba(0, 0, 0, 0.5);
   border-radius: 0.2em;
   z-index: 1;
+  overflow: auto;
 }
 
 .modal-content {

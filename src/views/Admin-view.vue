@@ -21,15 +21,15 @@
     </aside>
 
     <main class="col-12 text-white">
-      <section v-if="selected === 'Commandes'">
+      <section v-bind:hidden="selected !== 'Commandes'">
         <OrderPreview />
       </section>
 
-      <section v-else-if="selected === 'Produits'">
+      <section v-bind:hidden="selected !== 'Produits'">
         <h1>Liste des Produits</h1>
       </section>
 
-      <section class="" v-else-if="selected === 'Utilisateurs'">
+      <section class="col-12" v-bind:hidden="selected !== 'Utilisateurs'">
         <UsersList />
       </section>
     </main>

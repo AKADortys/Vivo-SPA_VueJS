@@ -5,7 +5,7 @@ import About from '@/views/About.vue'
 import Dashboard from '@/views/Profile.vue'
 import Order from '@/views/Order.vue'
 import Product from '@/views/Product.vue'
-import Admin from '@/views/Admin.vue'
+import Admin from '@/views/Admin-view.vue'
 
 const routes = [
   { path: '/', component: Home },
