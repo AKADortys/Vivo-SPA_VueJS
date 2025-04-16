@@ -1,6 +1,8 @@
 <template>
   <h3 class="w-100 text-center mb-4 display-4 titre text-white">Historique des commandes</h3>
-  <p v-if="total" class="text-center text-white mb-4">{{ total }} commande(s)</p>
+  <p v-if="total" class="text-center text-white mb-4">
+    <span class="p-1 alert alert-warning">{{ total }}</span> Résultat(s)
+  </p>
   <div
     class="col-12 col-md-10 col-lg-8 mx-auto my-4 p-1 bg-dark bg-gradient rounded border shadow-lg justify-content-center align-items-center overflow-auto mainContent"
   >
@@ -8,7 +10,7 @@
       <Loader v-if="loading" />
       <p v-else-if="errorMessage" class="text-danger p-4 text-center">{{ errorMessage }}</p>
       <div v-else>
-        <div v-if="order.length" class="text-info text-center p-4">Aucune commande trouvée</div>
+        <div v-if="!order.length" class="text-info text-center p-4">Aucune commande trouvée</div>
         <div v-else v-for="orderItem in order" :key="orderItem._id">
           <section>
             <h4 class="text-primary text-center">
@@ -69,7 +71,7 @@ import Loader from '@/components/Loader.vue'
 const userStore = useUserStore()
 
 const user = ref(null)
-const order = ref(null)
+const order = ref([])
 const errorMessage = ref('')
 const loading = ref(true)
 const page = ref(1)
@@ -93,7 +95,7 @@ const getOrders = async () => {
     if (user.value) {
       const response = await userStore.getOrders(user.value.id, page.value)
       const data = Array.isArray(response.data) ? response.data : []
-      order.value = [].push(...data)
+      order.value.push(...data)
       totalPages.value = response.totalPages
       total.value = response.total
     }

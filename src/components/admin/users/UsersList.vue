@@ -44,7 +44,7 @@
       </div>
       <p class="text-center text-light">Page {{ page }} sur {{ totalPage }}</p>
       <p class="text-center">
-        Total utilisateur(s) <span class="text-warning">{{ total }}</span>
+        Résultat(s) <span class="alert alert-info p-1">{{ total }}</span>
       </p>
     </div>
     <!--Chargement-->

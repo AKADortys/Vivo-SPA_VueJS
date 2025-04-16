@@ -46,7 +46,9 @@
         </button>
       </div>
       <p>Page {{ page }} sur {{ totalPages }}</p>
-      <p>Résultats: {{ total }}</p>
+      <p>
+        Résultat(s) <span class="alert alert-info p-1">{{ total }}</span>
+      </p>
     </div>
     <Loader v-if="isLoading" />
     <p v-else-if="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</p>

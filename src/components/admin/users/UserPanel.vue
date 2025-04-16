@@ -71,7 +71,6 @@ const props = defineProps({
     default: () => [],
   },
 })
-console.log(props)
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('fr-FR', {
     year: 'numeric',
