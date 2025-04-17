@@ -54,10 +54,10 @@
     <p v-else-if="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</p>
     <transition name="fade">
       <div class="container mb-4" v-if="orders.length && !isLoading">
-        <div class="row justify-content-around">
+        <div class="row justify-content-center gap-4">
           <div
             v-for="order in orders"
-            class="col-12 col-md-3 p-2 m-1 alert alert-secondary shadow-lg"
+            class="col-12 col-md-4 col-lg-3 p-2 alert alert-secondary shadow-lg"
             :key="order._id"
           >
             <p class="mb-1">
@@ -68,6 +68,9 @@
             </p>
             <p class="mb-1">
               Date: <span class="text-primary">{{ formatDate(order.createdAt) }}</span>
+            </p>
+            <p class="mb-1">
+              Nombre d'article: <span class="text-primary">{{ order.products.length }}</span>
             </p>
             <button class="btn btn-primary d-block mx-auto my-2" @click="loadOrder(order._id)">
               Voir détails

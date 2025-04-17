@@ -18,7 +18,7 @@ const errorMessage = ref('')
 const loading = ref(true)
 
 onMounted(async () => {
-  UserStore.chargerUtilisateur()
+  await UserStore.chargerUtilisateur()
   errorMessage.value = ''
   if (!UserStore.utilisateur) {
     errorMessage.value = 'Veuillez vous connecter pour accéder à cette page.'
@@ -29,17 +29,12 @@ onMounted(async () => {
     user.value = UserStore.utilisateur
     const response = await VivoBack.getProducts()
     products.value = response
-    loading.value = false
   } catch (error) {
-    if (error.message === 'Token invalide ou expiré') {
-      errorMessage.value = 'Connexion expirée'
-      sessionStorage.removeItem('currentUser')
-      router.push('/')
-    } else {
-      errorMessage.value = 'Une erreur est survenue lors de la récupération de la commande.'
-      console.error('Erreur lors de la récupération des commandes :', error)
-    }
+    router.push('/')
+    alert('Un problème est survenu !')
     console.error(error)
+  } finally {
+    loading.value = false
   }
 })
 
@@ -105,7 +100,7 @@ const getProductLabel = (productId) => {
   </div>
   <div v-else-if="errorMessage" class="row">
     <div class="col-12">
-      <p class="text-center">{{ errorMessage.value }}</p>
+      <p class="text-center">{{ errorMessage }}</p>
     </div>
   </div>
   <div v-else-if="loading" class="row">
