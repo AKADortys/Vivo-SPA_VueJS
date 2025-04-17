@@ -11,7 +11,7 @@
       <p v-else-if="errorMessage" class="text-danger p-4 text-center">{{ errorMessage }}</p>
       <div v-else>
         <div v-if="!order.length" class="text-info text-center p-4">Aucune commande trouvée</div>
-        <div v-else v-for="orderItem in order" :key="orderItem._id">
+        <div v-else v-for="orderItem in order" :key="orderItem._id" class="text-white">
           <section>
             <h4 class="text-primary text-center">
               Commande du
@@ -23,17 +23,20 @@
                 })
               }}
             </h4>
-            <p class="text-center mb-2">
+            <p class="mb-2">
               Livraison
-              <span class="text-warning">{{
+              <span class="text-info">{{
                 orderItem.deliveryAddress ? orderItem.deliveryAddress : 'Aucune'
               }}</span>
             </p>
-            <p class="text-center mb-2">
+            <p class="mb-2">
               Statut <span class="text-warning">{{ orderItem.status }}</span>
             </p>
-            <p class="text-center mb-2">
+            <p class="mb-2">
               N° commande <span class="text-warning">{{ orderItem._id }}</span>
+            </p>
+            <p class="mb-2">
+              Total d'articles <span>{{ orderItem.products.length }}</span>
             </p>
             <div
               class="d-flex flex-wrap align-items-center justify-content-center border-bottom mb-3 py-2"
@@ -115,10 +118,3 @@ const loadMore = async () => {
   }
 }
 </script>
-
-<style scoped>
-.mainContent {
-  max-height: 600px;
-  color: aliceblue;
-}
-</style>

@@ -2,7 +2,7 @@
   <div class="p-2 col-12">
     <!-- filtres-->
     <div
-      class="mb-2 p-4 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark bg-gradient border border-warning rounded"
+      class="mb-2 mx-auto p-4 w-75 d-flex gap-4 align-items-center flex-column flex-md-row bg-dark bg-gradient border border-warning rounded"
     >
       <div class="d-flex gap-4">
         <label class="visually-hidden" for="searchInput">Recherche utilisateur</label>
@@ -13,7 +13,7 @@
           type="text"
           id="searchInput"
         />
-        <select name="limit" title="Limite d'utilisateurs" v-model="searchLmt">
+        <select name="limit" title="Limite d'utilisateurs" class="rounded" v-model="searchLmt">
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
@@ -49,25 +49,22 @@
     </div>
     <!--Chargement-->
     <Loader v-if="isLoading" />
-    <!-- Remplace la table par une div -->
+    <!-- Bloc card utilisateur -->
     <transition name="fade">
-      <div class="container" v-if="!isLoading">
-        <div class="row justify-content-around gap-1">
+      <div class="container my-2" v-if="!isLoading">
+        <div class="row justify-content-center gap-5">
           <div
             v-for="user in users"
             :key="user._id"
-            class="p-2 alert alert-secondary shadow-lg col-12 col-md-3"
+            class="p-2 card bg-secondary bg-gradient text-white shadow-lg col-12 col-md-4 col-lg-3"
           >
-            <p>
-              Nom: <span>{{ user.name }}</span>
+            <p class="mb-1 card-header">
+              {{ user.name + ' ' + user.lastName }}
             </p>
-            <p>
-              Prénom: <span>{{ user.lastName }}</span>
-            </p>
-            <p>
+            <p class="mb-1 card-text">
               Téléphone: <span>{{ user.phone }}</span>
             </p>
-            <p>
+            <p class="mb-1 card-text">
               Email: <span>{{ user.mail }}</span>
             </p>
             <button class="d-block mx-auto my-2 btn btn-primary" @click="getDetails(user._id)">
@@ -155,7 +152,7 @@ const getDetails = async (userId) => {
     selectedUser.value = users.value.find((n) => n._id === userId)
     selectedUser.value.totalOrder = response.total
 
-    // Utilisez nextTick pour garantir que le DOM est mis à jour
+    //nextTick pour garantir DOM  mis à jour
     nextTick(() => {
       if (panelScrollAnchor.value) {
         panelScrollAnchor.value.scrollIntoView({ behavior: 'smooth' })

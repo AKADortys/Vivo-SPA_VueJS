@@ -21,6 +21,9 @@ import Footer from '@/components/Footer.vue'
 body {
   min-height: 100%;
   background-image: url('/brown-wooden-textured-flooring-background.jpg');
-  background-size: cover;
+  background-size: contain;
+}
+main {
+  min-height: 80vh;
 }
 </style>

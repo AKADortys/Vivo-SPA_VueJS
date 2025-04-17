@@ -1,16 +1,16 @@
 <template>
   <div class="d-flex flex-column">
     <div
-      class="p-4 d-flex gap-3 flex-column flex-md-row align-items-center bg-dark bg-gradient border rounded mb-4"
+      class="p-4 my-2 mx-auto w-75 d-flex gap-3 flex-column flex-md-row align-items-center bg-dark bg-gradient border border-warning rounded mb-4"
     >
-      <select v-model="filter" name="status">
+      <select v-model="filter" class="rounded" name="status">
         <option value="En cours de traitement">En cours de traitement</option>
         <option value="Confirmée">Confirmée</option>
         <option value="Prêt en magasin">Prêt en magasin</option>
         <option value="Refusée">Refusée</option>
         <option value="Annulée">Annulée</option>
       </select>
-      <select v-model="limit" name="limit">
+      <select v-model="limit" class="rounded" name="limit">
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="50">50</option>
