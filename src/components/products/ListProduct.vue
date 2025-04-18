@@ -59,18 +59,33 @@
 
   <!-- Fallback : aucun produit et pas en chargement -->
   <p v-else class="text-center text-warning mt-4">Aucun produit trouvé pour le moment.</p>
+
+  <AlertG
+    v-if="alertAs.show"
+    :title="alertAs.title"
+    :message="alertAs.message"
+    :type="alertAs.type"
+    :show="alertAs.show"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
 import Loader from '@/components/Loader.vue'
+import AlertG from '@/components/Alert-G.vue'
 
 const panierStore = usePanierStore()
 const isLoading = ref(false)
 const errorMessage = ref(null)
 const products = ref([])
 const category = ref(['Plat principal', 'Dessert', 'Boisson', 'Divers'])
+const alertAs = ref({
+  show: false,
+  title: '',
+  message: ' ajouté avec succés !',
+  type: 'success', // ex: alert-success, alert-danger
+})
 
 onMounted(async () => {
   try {
@@ -94,6 +109,7 @@ const filteredProducts = computed(() => {
 })
 
 const addToCart = (product) => {
+  alertAs.value.title = `${product.label}`
   const formatProduct = {
     id: product.id,
     label: product.label,
@@ -101,6 +117,10 @@ const addToCart = (product) => {
     quantity: 1,
   }
   panierStore.ajouterProduit(formatProduct)
+  alertAs.value.show = true
+  setTimeout(() => {
+    alertAs.value.show = false
+  }, 1500)
 }
 </script>
 

@@ -39,7 +39,9 @@
     <ConfirmBtn
       :order="order"
       v-if="order.status === 'En cours de traitement'"
-      @button-clicked="close"
+      @valid="sendEvent('valid')"
+      @invalid="sendEvent('invalid')"
+      @error="sendEvent('error')"
     />
   </div>
 </template>
@@ -47,7 +49,7 @@
 <script setup>
 import ConfirmBtn from '@/components/admin/orders/ConfirmBtn.vue'
 
-const emit = defineEmits(['close-section'])
+const emit = defineEmits(['valid', 'invalid', 'error'])
 
 const props = defineProps({
   order: {
@@ -66,9 +68,12 @@ const formatDate = (isoDate) => {
     minute: '2-digit',
   })
 }
-
-const close = () => {
-  emit('close-section')
+const sendEvent = (status) => {
+  if (['valid', 'invalid', 'error'].includes(status)) {
+    emit(status)
+  } else {
+    console.warn(`Événement non reconnu : ${status}`)
+  }
 }
 </script>
 

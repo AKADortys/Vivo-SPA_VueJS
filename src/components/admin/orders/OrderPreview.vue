@@ -84,18 +84,28 @@
     </transition>
     <button class="btn btn-danger" title="Fermer" v-if="details" @click="details = null">✖️</button>
     <OrderPanel
-      @close-section="closeOrderPanel"
       v-if="details && Object.keys(details).length"
       :order="details"
       ref="orderPanelRef"
+      @valid="showAlert('Commande Modifié !', 'La commande a été validée avec succès', 'success')"
+      @invalid="showAlert('Commande Modifié !', 'La commande a été réfusée avec succès', 'success')"
+      @error="showAlert('Un problème est survenue', 'Une erreur réseau est survenue', 'danger')"
     />
   </div>
+  <Alert
+    v-if="alertAs.show"
+    :title="alertAs.title"
+    :message="alertAs.message"
+    :type="alertAs.type"
+    :show="alertAs.show"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted, inject, watch, nextTick } from 'vue'
 import Loader from '@/components/Loader.vue'
 import OrderPanel from '@/components/admin/orders/OrderPanel.vue'
+import Alert from '@/components/Alert-G.vue'
 
 const VivoBack = inject('VivoBack')
 const orderPanelRef = ref(null)
@@ -105,6 +115,12 @@ const orders = ref([])
 const total = ref(0)
 const totalPages = ref(0)
 const details = ref(null)
+const alertAs = ref({
+  show: false,
+  title: '',
+  message: '',
+  type: '', // ex: alert-success, alert-danger
+})
 
 const page = ref(1)
 watch(page, () => {
@@ -156,9 +172,18 @@ const loadOrder = async (id) => {
   }
 }
 
-const closeOrderPanel = () => {
+const showAlert = async (title, message, type = 'info') => {
+  alertAs.value = {
+    show: true,
+    title,
+    message,
+    type,
+  }
+  await getOrders()
   details.value = null
-  getOrders()
+  setTimeout(() => {
+    alertAs.value.show = false
+  }, 5000)
 }
 
 const formatDate = (isoDate) => {

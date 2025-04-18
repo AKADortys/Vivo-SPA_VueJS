@@ -3,10 +3,17 @@ import { ref, onMounted } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
 import { useUserStore } from '@/store/userStore'
 import infoOrder from '@/components/about/infoOrder.vue'
+import Alert from '@/components/Alert-G.vue'
 
 const userStore = useUserStore()
 const panierStore = usePanierStore()
 const address = ref(null)
+const alertAs = ref({
+  show: false,
+  title: '',
+  message: '',
+  type: 'danger', // ex: alert-success, alert-danger
+})
 
 // Charger le panier depuis Dexie au montage du composant
 onMounted(async () => {
@@ -15,11 +22,31 @@ onMounted(async () => {
 })
 
 const supprimerProduit = (id) => {
+  alertAs.value.show = false
   panierStore.supprimerProduit(id)
+  alertAs.value = {
+    show: true,
+    title: 'Article supprimé',
+    message: '',
+    type: 'danger', // ex: alert-success, alert-danger
+  }
+  setTimeout(() => {
+    alertAs.value.show = false
+  }, 1500)
 }
 
 const viderPanier = () => {
+  alertAs.value.show = false
   panierStore.viderPanier()
+  alertAs.value = {
+    show: true,
+    title: 'Panier vidé',
+    message: '',
+    type: 'danger', // ex: alert-success, alert-danger
+  }
+  setTimeout(() => {
+    alertAs.value.show = false
+  }, 1500)
 }
 
 const confirm = () => {
@@ -92,4 +119,11 @@ const confirm = () => {
       <button class="btn btn-success" @click="confirm()">Confirmer la commande</button>
     </div>
   </div>
+  <Alert
+    v-if="alertAs.show"
+    :title="alertAs.title"
+    :message="alertAs.message"
+    :type="alertAs.type"
+    :show="alertAs.show"
+  />
 </template>

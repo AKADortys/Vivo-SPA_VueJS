@@ -9,7 +9,7 @@
     >
       <div class="d-flex">
         <div class="toast-body">
-          <strong v-if="title">{{ title }} :</strong> {{ message }}
+          <strong v-if="title">{{ title }} </strong> {{ message ? message : '' }}
         </div>
         <button
           type="button"
