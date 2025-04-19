@@ -72,10 +72,12 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { usePanierStore } from '@/store/cartStore'
+import { useUserStore } from '@/store/userStore'
 import Loader from '@/components/Loader.vue'
 import AlertG from '@/components/Alert-G.vue'
 
 const panierStore = usePanierStore()
+const userStore = useUserStore()
 const isLoading = ref(false)
 const errorMessage = ref(null)
 const products = ref([])
@@ -91,6 +93,7 @@ onMounted(async () => {
   try {
     isLoading.value = true
     await panierStore.getProduct()
+    await userStore.chargerUtilisateur()
     products.value = panierStore.products
   } catch (error) {
     console.error('Erreur lors du chargement des produits:', error)
@@ -109,6 +112,18 @@ const filteredProducts = computed(() => {
 })
 
 const addToCart = (product) => {
+  if (!userStore.utilisateur) {
+    alertAs.value = {
+      show: true,
+      title: '',
+      message: 'Connectez vous pour ajouter un produit',
+      type: 'danger', // ex: alert-success, alert-danger
+    }
+    setTimeout(() => {
+      alertAs.value.show = false
+    }, 1500)
+    return
+  }
   alertAs.value.title = `${product.label}`
   const formatProduct = {
     id: product.id,
@@ -117,7 +132,12 @@ const addToCart = (product) => {
     quantity: 1,
   }
   panierStore.ajouterProduit(formatProduct)
-  alertAs.value.show = true
+  alertAs.value = {
+    show: true,
+    title: product.label,
+    message: ' ajouté avec succés !',
+    type: 'success', // ex: alert-success, alert-danger
+  }
   setTimeout(() => {
     alertAs.value.show = false
   }, 1500)
@@ -130,6 +150,7 @@ const addToCart = (product) => {
   transition:
     border 0.15s ease,
     transform 0.2s ease;
+  cursor: pointer;
 }
 
 .product-card:hover {
