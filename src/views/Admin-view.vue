@@ -26,7 +26,7 @@
       </section>
 
       <section v-bind:hidden="selected !== 'Produits'">
-        <h1>Liste des Produits</h1>
+        <productPreview />
       </section>
 
       <section class="col-12" v-bind:hidden="selected !== 'Utilisateurs'">
@@ -40,6 +40,7 @@
 import { ref } from 'vue'
 import UsersList from '@/components/admin/users/UsersList.vue'
 import OrderPreview from '@/components/admin/orders/OrderPreview.vue'
+import productPreview from '@/components/admin/products/product-preview.vue'
 
 const menuItems = ['Commandes', 'Produits', 'Utilisateurs']
 const selected = ref('Commandes') // valeur par déf
